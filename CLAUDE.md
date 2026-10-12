@@ -3,20 +3,28 @@
 Site/blog de Quemuel Verdum em https://avaliacoesquevendem.com.br, feito em Astro (estático).
 Cada push na branch `main` dispara build e deploy automáticos na Hostinger (Node.js Web App).
 
-## Como publicar um post
-1. Crie `src/content/blog/<slug-com-hifens>.md` com o frontmatter:
+Leia antes de criar conteúdo: `docs/publico-comprador.md`, `docs/arquitetura.md`, `docs/seo.md`, `docs/design.md`.
+
+## Como publicar um artigo
+1. Escolha um item da pauta em `docs/arquitetura.md` (um artigo = uma pergunta; não repita consulta de outro artigo).
+2. Crie `src/content/blog/<nome>.md` com o frontmatter:
    ```yaml
-   titulo: "Título com a palavra-chave principal"
-   descricao: "Até 160 caracteres, com a palavra-chave e um benefício claro."
+   slug: endereco-curto            # vira /avaliacoes-no-google/endereco-curto/
+   titulo: "H1 do artigo"
+   tituloSeo: "Título para o Google (45–60 caracteres)"
+   descricao: "Meta description, 140–160 caracteres."
+   resumo: "Resposta direta em 1–3 frases (aparece como 'Resposta rápida')."
+   palavraChave: "consulta principal"
+   tema: pedir | responder | usar
    data: AAAA-MM-DD
-   categoria: "Pedir avaliações" | "Responder avaliações" | "Usar avaliações" | "Guia completo"
-   faq:            # opcional, 2 a 4 perguntas reais
+   faq:            # opcional, só perguntas reais
      - pergunta: "..."
        resposta: "..."
-   rascunho: false # true = não publica
+   rascunho: false
    ```
-2. Rode `npm run build` para conferir que não há erro.
-3. Commit e push na `main`.
+3. No 1º parágrafo, link para o pilar `/avaliacoes-no-google/`. H2 em forma de pergunta com resposta direta na 1ª frase. 1–2 links para artigos irmãos.
+4. Marque o item como feito na pauta de `docs/arquitetura.md` e, se for um assunto central, adicione um link contextual no pilar.
+5. Rode `npm run build` (falha se o frontmatter estiver fora do padrão). Commit e push na `main`.
 
 ## Tom de voz
 - Português do Brasil, direto, prático, sem enrolação e sem jargão de marketing.
@@ -27,14 +35,20 @@ Cada push na branch `main` dispara build e deploy automáticos na Hostinger (Nod
 ## Checklist de SEO para todo post
 - Palavra-chave principal no título, na descrição, no primeiro parágrafo e em pelo menos um H2.
 - Um único H1 (vem do título). Use H2/H3 em ordem.
-- Link para o pilar `/blog/guia-completo-avaliacoes-google/` e para 1–2 posts relacionados.
+- Link para o pilar `/avaliacoes-no-google/` e para 1–2 artigos relacionados.
 - Parágrafos curtos, listas quando ajudar, exemplo prático sempre que possível.
 - Nada de dados ou estatísticas inventadas. Sem citação de fonte, sem número.
 - Nunca recomendar incentivos em troca de avaliações nem filtrar quem vai avaliar (políticas do Google).
+- Regras do Google citadas sempre com link para a ajuda oficial.
+- Contato: todo CTA principal leva ao WhatsApp (51) 98997-8057 via `SITE.whatsapp` em `src/config.ts`.
 
 ## Estrutura
-- `src/config.ts` — nome, URL, links de WhatsApp e ebook.
-- `src/nichos.ts` — páginas /avaliacoes-para/<nicho>/.
-- `src/content/blog/` — posts em Markdown.
-- `src/layouts/` — layout base, layout de post e chamada (CTA).
-- `src/pages/sitemap.xml.ts` — sitemap gerado no build.
+- `src/config.ts` — nome, URL, WhatsApp (links com mensagem pronta), ebook, perfis sociais.
+- `src/temas.ts` — temas do hub (pedir, responder, usar).
+- `src/nichos.ts` — páginas /avaliacoes-para/<segmento>/.
+- `src/content/blog/` — pilar e artigos em Markdown.
+- `src/layouts/` — Base (SEO, menu, rodapé, trilha), Post (artigo), Chamada (CTA).
+- `src/pages/avaliacoes-no-google/` — pilar, temas e artigos.
+- `src/pages/blog/[...slug].astro` — redirecionamentos de endereços antigos.
+- `src/pages/sitemap.xml.ts`, `rss.xml.ts`, `llms.txt.ts` — gerados no build.
+- `docs/` — público, arquitetura, SEO, design e variantes de copy.
