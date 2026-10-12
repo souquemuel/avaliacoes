@@ -1,0 +1,26 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../config';
+---
+<Base titulo="Consultoria de posicionamento no Google" descricao="Consultoria para deixar o perfil da sua empresa no Google completo e com avaliações que transmitem credibilidade e geram clientes.">
+  <article class="artigo">
+    <div class="container leitura conteudo">
+      <span class="selo">Consultoria</span>
+      <h1>Seu perfil no Google com a credibilidade que faz o cliente escolher você</h1>
+      <p>Trabalho com empresas que já estão no Google, mas não usam todo o potencial da ferramenta. O projeto deixa o seu perfil completo e preparado para converter quem chega até ele.</p>
+      <h2>O que está incluído</h2>
+      <ul>
+        <li>Perfil 100% completo: categorias e subcategorias, serviços, produtos, redes sociais e atualizações.</li>
+        <li>Estratégia de avaliações: como pedir, como responder e como usar as avaliações na venda.</li>
+        <li>Consultoria ao final do projeto para a sua equipe seguir com autonomia.</li>
+      </ul>
+      <h2>Como começa</h2>
+      <p>Primeiro eu analiso o seu perfil atual e dou uma nota de 0 a 100 para a qualidade dele. Para isso, preciso apenas do nome da empresa, do endereço e da cidade e estado.</p>
+      <p id="contato">
+        {SITE.whatsapp
+          ? <a class="botao" href={SITE.whatsapp} rel="noopener">Pedir minha análise pelo WhatsApp</a>
+          : <em>Canal de contato em breve.</em>}
+      </p>
+    </div>
+  </article>
+</Base>

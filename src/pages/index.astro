@@ -1,0 +1,78 @@
+---
+import Base from '../layouts/Base.astro';
+import Chamada from '../layouts/Chamada.astro';
+import { getCollection } from 'astro:content';
+import { SITE } from '../config';
+import { NICHOS } from '../nichos';
+
+const posts = (await getCollection('blog', ({ data }) => !data.rascunho))
+  .sort((a, b) => b.data.data.valueOf() - a.data.data.valueOf())
+  .slice(0, 6);
+const linkEbook = SITE.ebookUrl || '/ebook/';
+const schema = [{
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: SITE.nome,
+  url: SITE.url,
+  inLanguage: 'pt-BR',
+  publisher: { '@id': `${SITE.url}/#organizacao` },
+}];
+---
+<Base titulo="Avaliações que Vendem: transforme avaliações do Google em clientes" schema={schema}>
+  <section class="hero">
+    <div class="container">
+      <span class="selo">Método Avaliações que Vendem</span>
+      <h1>Avaliações do Google que fazem o cliente escolher você</h1>
+      <p>Quem encontra a sua empresa no Google lê as avaliações antes de ligar, visitar ou comprar. Aqui você aprende a transformar essas avaliações em credibilidade e em novos clientes, sem depender de anúncios.</p>
+      <div class="acoes">
+        <a class="botao" href="/blog/guia-completo-avaliacoes-google/">Ler o guia completo</a>
+        <a class="botao secundario" href={linkEbook}>Conhecer o ebook</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="secao clara">
+    <div class="container">
+      <h2 style="margin-top:0">Avaliação não é vaidade. É o seu vendedor que nunca dorme.</h2>
+      <p class="leitura" style="margin-left:0">A maioria das empresas trata avaliações como um número. O método Avaliações que Vendem trata cada avaliação como argumento de venda: o que o cliente escreveu, como a empresa respondeu e o que o próximo cliente sente ao ler tudo isso.</p>
+      <div class="numeros">
+        <div><strong>1.700+</strong>clientes atendidos</div>
+        <div><strong>25</strong>estratégias no método</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="secao">
+    <div class="container">
+      <h2 style="margin-top:0">Artigos recentes</h2>
+      <div class="grade">
+        {posts.map((p) => (
+          <article class="cartao">
+            <p class="meta">{p.data.categoria}</p>
+            <h3><a class="titulo" href={`/blog/${p.id}/`}>{p.data.titulo}</a></h3>
+            <p>{p.data.descricao}</p>
+          </article>
+        ))}
+      </div>
+      <p style="margin-top:24px"><a href="/blog/">Ver todos os artigos →</a></p>
+    </div>
+  </section>
+
+  <section class="secao clara">
+    <div class="container">
+      <h2 style="margin-top:0">Avaliações por segmento</h2>
+      <div class="grade">
+        {NICHOS.map((n) => (
+          <article class="cartao">
+            <h3><a class="titulo" href={`/avaliacoes-para/${n.slug}/`}>{n.nome}</a></h3>
+            <p>{n.descricao}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <div class="container leitura">
+    <Chamada />
+  </div>
+</Base>

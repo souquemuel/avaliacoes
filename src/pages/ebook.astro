@@ -1,0 +1,24 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../config';
+---
+<Base titulo="Guia das Avaliações que Vendem (ebook)" descricao="O ebook Guia das Avaliações que Vendem mostra, passo a passo, como transformar as avaliações do Google em novos clientes para o seu negócio local.">
+  <article class="artigo">
+    <div class="container leitura conteudo">
+      <span class="selo">Ebook</span>
+      <h1>Guia das Avaliações que Vendem</h1>
+      <p>Um guia prático para donos de negócios locais que querem mais clientes sem depender de anúncios. Sem jargão de marketing: o que fazer, quando fazer e como fazer para que as suas avaliações no Google trabalhem a favor da venda.</p>
+      <h2>O que você vai aprender</h2>
+      <ul>
+        <li>Como pedir avaliações sem constrangimento, e no momento certo.</li>
+        <li>Como responder elogios e críticas de um jeito que convence quem está lendo.</li>
+        <li>Como fazer os clientes escreverem avaliações que respondem às dúvidas dos próximos clientes.</li>
+      </ul>
+      <p>
+        {SITE.ebookUrl
+          ? <a class="botao" href={SITE.ebookUrl} rel="noopener">Quero o guia</a>
+          : <em>Link de compra em breve.</em>}
+      </p>
+    </div>
+  </article>
+</Base>
