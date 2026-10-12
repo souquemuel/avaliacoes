@@ -1,38 +1,34 @@
 ---
 import Base from '../../layouts/Base.astro';
+import CartaoPost from '../../layouts/CartaoPost.astro';
 import { postsPublicados, urlPost } from '../../lib/posts';
-import { TEMAS, PILAR_URL, urlTema } from '../../temas';
+import { TEMAS, urlTema } from '../../temas';
 const posts = await postsPublicados();
-const fmt = (d: Date) => d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric', timeZone: 'UTC' });
+const pilar = posts.find((p) => p.data.pilar);
+const artigos = posts.filter((p) => !p.data.pilar);
 const schema = [{
   '@context': 'https://schema.org', '@type': 'CollectionPage', name: 'Blog Avaliações que Vendem',
   hasPart: posts.map((p) => ({ '@type': 'BlogPosting', headline: p.data.titulo, url: `https://avaliacoesquevendem.com.br${urlPost(p)}` })),
 }];
 ---
-<Base titulo="Blog: avaliações no Google e Google Meu Negócio" descricao="Artigos práticos sobre como pedir, responder e usar avaliações do Google (Google Meu Negócio) para o cliente escolher a sua empresa." trilha={[{ nome: 'Blog' }]} schema={schema}>
-  <section class="artigo" style="padding-top:8px">
+<Base titulo="Blog: avaliações no Google e Google Meu Negócio" descricao="Artigos práticos sobre como pedir, responder e usar avaliações do Google (Google Meu Negócio) para o cliente escolher a sua empresa." trilha={[{ nome: 'Blog' }]} trilhaEscura schema={schema}>
+  <section class="pagina-topo">
     <div class="container">
       <span class="selo">Blog</span>
       <h1>Avaliações no Google, do pedido à venda</h1>
-      <p class="intro-secao">Comece pelo <a href={PILAR_URL}>guia completo</a> ou escolha um tema. Cada artigo resolve uma dúvida prática sobre avaliações no Google Meu Negócio.</p>
-      {TEMAS.map((t) => {
-        const lista = posts.filter((p) => p.data.tema === t.id);
-        return lista.length ? (
-          <section>
-            <h2><a href={urlTema(t)} style="color:inherit;text-decoration:none">{t.nome}</a></h2>
-            <p class="meta">{t.descricao}</p>
-            <div class="grade" style="margin-top:16px">
-              {lista.map((p) => (
-                <article class="cartao">
-                  <p class="meta">{fmt(p.data.data)}</p>
-                  <h3><a class="titulo" href={urlPost(p)}>{p.data.titulo}</a></h3>
-                  <p>{p.data.descricao}</p>
-                </article>
-              ))}
-            </div>
-          </section>
-        ) : null;
-      })}
+      <p class="intro-secao">Artigos práticos para transformar avaliações do Google Meu Negócio em clientes. Escolha um tema:</p>
+      <nav class="filtros" aria-label="Temas">
+        {TEMAS.map((t) => <a href={urlTema(t)}>{t.nome}</a>)}
+      </nav>
+    </div>
+  </section>
+  <section class="pagina-corpo">
+    <div class="container">
+      {pilar && <CartaoPost post={pilar} destaque nivel="h2" />}
+      <div class="cabeca-secao" style="margin-top:64px"><h2>Todos os artigos</h2><span class="meta">{artigos.length} artigos</span></div>
+      <div class="grade-posts">
+        {artigos.map((p) => <CartaoPost post={p} />)}
+      </div>
     </div>
   </section>
 </Base>
