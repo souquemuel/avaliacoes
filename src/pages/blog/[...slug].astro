@@ -1,14 +1,28 @@
 ---
-import Post from '../../layouts/Post.astro';
-import { getCollection, render } from 'astro:content';
+// Endereços antigos (/blog/<artigo>/) → novos (/avaliacoes-no-google/...).
+// Gera páginas de redirecionamento imediato (tratadas pelo Google como permanentes).
+import { SITE } from '../../config';
 
-export async function getStaticPaths() {
-  const posts = await getCollection('blog', ({ data }) => !data.rascunho);
-  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+export function getStaticPaths() {
+  const mapa: Record<string, string> = {
+    'guia-completo-avaliacoes-google': '/avaliacoes-no-google/',
+    'como-pedir-avaliacoes-no-google': '/avaliacoes-no-google/como-pedir-avaliacoes/',
+    'como-responder-avaliacoes-negativas': '/avaliacoes-no-google/responder-avaliacoes-negativas/',
+    'texto-das-avaliacoes-importa-mais-que-a-nota': '/avaliacoes-no-google/texto-das-avaliacoes/',
+  };
+  return Object.entries(mapa).map(([slug, destino]) => ({ params: { slug }, props: { destino } }));
 }
-const { post } = Astro.props;
-const { Content } = await render(post);
+const { destino } = Astro.props;
+const abs = new URL(destino, SITE.url).href;
 ---
-<Post {...post.data}>
-  <Content />
-</Post>
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <title>Página movida</title>
+    <meta http-equiv="refresh" content={`0; url=${destino}`} />
+    <link rel="canonical" href={abs} />
+    <meta name="robots" content="noindex, follow" />
+  </head>
+  <body><p>Esta página mudou de endereço: <a href={destino}>{abs}</a></p></body>
+</html>
