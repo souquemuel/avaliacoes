@@ -1,0 +1,17 @@
+---
+import { SITE } from '../config';
+interface Props { titulo?: string; texto?: string; }
+const {
+  titulo = 'Quer que as suas avaliações comecem a vender?',
+  texto = 'Conheça o Guia das Avaliações que Vendem ou fale comigo sobre uma consultoria para o seu negócio.',
+} = Astro.props;
+const linkEbook = SITE.ebookUrl || '/ebook/';
+---
+<aside class="chamada">
+  <h2>{titulo}</h2>
+  <p>{texto}</p>
+  <p style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:0">
+    <a class="botao" href={linkEbook}>Conhecer o ebook</a>
+    <a class="botao secundario" style="color:#fff;border-color:#fff" href="/consultoria/">Consultoria</a>
+  </p>
+</aside>

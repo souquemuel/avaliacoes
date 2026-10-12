@@ -1,0 +1,92 @@
+---
+import '../global.css';
+import { SITE } from '../config';
+
+interface Props {
+  titulo: string;
+  descricao?: string;
+  tipo?: 'website' | 'article';
+  schema?: Record<string, unknown>[];
+  semIndex?: boolean;
+}
+
+const { titulo, descricao = SITE.descricao, tipo = 'website', schema = [], semIndex = false } = Astro.props;
+const canonical = new URL(Astro.url.pathname, SITE.url).href;
+const tituloCompleto = titulo === SITE.nome ? titulo : `${titulo} | ${SITE.nome}`;
+const caminho = Astro.url.pathname;
+
+const organizacao = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': `${SITE.url}/#organizacao`,
+  name: SITE.nome,
+  url: SITE.url,
+  logo: `${SITE.url}/favicon.svg`,
+  founder: { '@id': `${SITE.url}/sobre/#quemuel` },
+  ...(SITE.perfis.length ? { sameAs: SITE.perfis } : {}),
+};
+const dados = [organizacao, ...schema];
+
+const menu = [
+  { href: '/blog/', rotulo: 'Blog' },
+  { href: '/blog/guia-completo-avaliacoes-google/', rotulo: 'Guia completo' },
+  { href: '/ebook/', rotulo: 'Ebook' },
+  { href: '/consultoria/', rotulo: 'Consultoria' },
+  { href: '/sobre/', rotulo: 'Sobre' },
+];
+---
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{tituloCompleto}</title>
+    <meta name="description" content={descricao} />
+    <link rel="canonical" href={canonical} />
+    {semIndex && <meta name="robots" content="noindex" />}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap.xml" />
+    <meta name="theme-color" content="#14161c" />
+    <meta property="og:type" content={tipo} />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content={SITE.nome} />
+    <meta property="og:title" content={tituloCompleto} />
+    <meta property="og:description" content={descricao} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+    <script type="application/ld+json" set:html={JSON.stringify(dados)} />
+  </head>
+  <body>
+    <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+    <header class="topo">
+      <div class="container">
+        <a class="logo" href="/">
+          <svg width="26" height="26" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 6l7.6 15.4 17 2.5-12.3 12 2.9 16.9L32 44.8l-15.2 8 2.9-16.9-12.3-12 17-2.5z" fill="#c9a24a"/></svg>
+          <span class="logo-texto">Avaliações <span>que Vendem</span></span>
+        </a>
+        <nav class="menu" aria-label="Menu principal">
+          {menu.map((item) => (
+            <a href={item.href} aria-current={caminho === item.href ? 'page' : undefined}>{item.rotulo}</a>
+          ))}
+        </nav>
+      </div>
+    </header>
+    <main id="conteudo">
+      <slot />
+    </main>
+    <footer class="rodape">
+      <div class="container">
+        <div>
+          <strong style="color:#fff">{SITE.nome}</strong><br />
+          Conteúdo de {SITE.autor} · {SITE.marca}<br />
+          {SITE.regiao}
+        </div>
+        <nav aria-label="Rodapé">
+          <a href="/blog/">Blog</a> · <a href="/avaliacoes-para/restaurantes/">Restaurantes</a> ·
+          <a href="/avaliacoes-para/clinicas/">Clínicas</a> · <a href="/avaliacoes-para/imobiliarias/">Imobiliárias</a><br />
+          © {new Date().getFullYear()} {SITE.autor}
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>
