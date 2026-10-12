@@ -3,9 +3,12 @@ import Base from './Base.astro';
 import Chamada from './Chamada.astro';
 import { SITE } from '../config';
 import { temaPorId, PILAR_URL, TEMAS, urlTema } from '../temas';
+import { capaSvg, tempoLeitura } from '../lib/capa';
 
 interface Link { titulo: string; url: string }
 interface Props {
+  slug: string;
+  corpo?: string;
   titulo: string;
   tituloSeo?: string;
   descricao: string;
@@ -20,11 +23,12 @@ interface Props {
   relacionados: Link[];
   porTema?: Record<string, Link[]>;
 }
-const { titulo, tituloSeo, descricao, resumo, palavraChave, tema, pilar, data, atualizado, faq, headings, relacionados, porTema } = Astro.props;
+const { slug, corpo, titulo, tituloSeo, descricao, resumo, palavraChave, tema, pilar, data, atualizado, faq, headings, relacionados, porTema } = Astro.props;
 const url = new URL(Astro.url.pathname, SITE.url).href;
 const t = temaPorId(tema);
 const fmt = (d: Date) => d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric', timeZone: 'UTC' });
 const secoes = headings.filter((h) => h.depth === 2);
+const min = tempoLeitura(corpo);
 
 const trilha = pilar
   ? [{ nome: 'Avaliações no Google' }]
@@ -42,6 +46,7 @@ const schema: Record<string, unknown>[] = [{
   dateModified: (atualizado ?? data).toISOString(),
   mainEntityOfPage: url,
   inLanguage: 'pt-BR',
+  timeRequired: `PT${min}M`,
   ...(t ? { articleSection: t.nome } : {}),
   author: { '@type': 'Person', '@id': `${SITE.url}/sobre/#quemuel`, name: SITE.autor, url: `${SITE.url}/sobre/` },
   publisher: { '@id': `${SITE.url}/#organizacao` },
@@ -54,18 +59,29 @@ if (faq?.length) {
   });
 }
 ---
-<Base titulo={tituloSeo ?? titulo} descricao={descricao} tipo="article" schema={schema} trilha={trilha}>
-  <article class="artigo" style="padding-top:8px">
-    <div class="container leitura centro">
-      <h1>{titulo}</h1>
-      <p class="meta">
-        Por <a href="/sobre/">{SITE.autor}</a> · <time datetime={data.toISOString()}>{fmt(data)}</time>
-        {atualizado && <> · atualizado em <time datetime={atualizado.toISOString()}>{fmt(atualizado)}</time></>}
-        {t && <> · <a href={urlTema(t)}>{t.nome}</a></>}
-      </p>
+<Base titulo={tituloSeo ?? titulo} descricao={descricao} tipo="article" schema={schema} trilha={trilha} trilhaEscura>
+  <header class="post-topo">
+    <div class="container post-topo-grade">
+      <div>
+        <p class="card-meta">
+          <span class="chip">{t ? t.nome : 'Guia completo'}</span>
+          <span>{min} min de leitura</span>
+        </p>
+        <h1>{titulo}</h1>
+        <div class="post-autor">
+          <span class="monograma" aria-hidden="true">QV</span>
+          <span>Por <a href="/sobre/">{SITE.autor}</a><br /><time datetime={data.toISOString()}>{fmt(data)}</time>{atualizado && <> · atualizado em <time datetime={atualizado.toISOString()}>{fmt(atualizado)}</time></>}</span>
+        </div>
+      </div>
+      <div class="post-capa" set:html={capaSvg(tema, slug)} />
+    </div>
+  </header>
+
+  <div class="container post-grade">
+    <article class="post-corpo">
       <div class="resumo"><strong>Resposta rápida</strong><p>{resumo}</p></div>
       {secoes.length >= 3 && (
-        <details class="indice" open={pilar}>
+        <details class="indice indice-mobile">
           <summary>Neste artigo</summary>
           <ol>{secoes.map((h) => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}</ol>
         </details>
@@ -77,12 +93,14 @@ if (faq?.length) {
       {pilar && porTema && (
         <section class="relacionados">
           <h2>Todos os artigos do guia</h2>
-          {TEMAS.map((tm) => porTema[tm.id]?.length ? (
-            <>
-              <h3><a href={urlTema(tm)}>{tm.nome}</a></h3>
-              <ul>{porTema[tm.id].map((p) => <li><a href={p.url}>{p.titulo}</a></li>)}</ul>
-            </>
-          ) : null)}
+          <div class="lista-temas">
+            {TEMAS.map((tm) => porTema[tm.id]?.length ? (
+              <div class="cartao">
+                <h3><a href={urlTema(tm)}>{tm.nome}</a></h3>
+                <ul>{porTema[tm.id].map((p) => <li><a href={p.url}>{p.titulo}</a></li>)}</ul>
+              </div>
+            ) : null)}
+          </div>
         </section>
       )}
 
@@ -101,7 +119,7 @@ if (faq?.length) {
       {!pilar && (
         <nav class="relacionados" aria-label="Continue lendo">
           <h2>Continue lendo</h2>
-          <ul>
+          <ul class="lista-links">
             <li><a href={PILAR_URL}>Guia completo: como transformar avaliações do Google em clientes</a></li>
             {relacionados.map((r) => <li><a href={r.url}>{r.titulo}</a></li>)}
             {t && <li><a href={urlTema(t)}>Todos os artigos sobre {t.nome.toLowerCase()}</a></li>}
@@ -110,11 +128,27 @@ if (faq?.length) {
       )}
 
       <div class="autor">
-        <div class="inicial" aria-hidden="true">Q</div>
-        <p><strong><a href="/sobre/">{SITE.autor}</a></strong> é especialista em posicionamento no Google e criador do método Avaliações que Vendem. À frente da {SITE.marca}, já atendeu mais de 1.700 clientes.</p>
+        <span class="monograma grande" aria-hidden="true">QV</span>
+        <p><strong><a href="/sobre/">{SITE.autor}</a></strong><br />Especialista em posicionamento no Google e criador do método Avaliações que Vendem. À frente da {SITE.marca}, já atendeu mais de 1.700 clientes.</p>
       </div>
 
       <Chamada />
-    </div>
-  </article>
+    </article>
+
+    <aside class="post-lateral" aria-label="Navegação do artigo">
+      <div class="lateral-fixa">
+        {secoes.length >= 3 && (
+          <nav class="indice-lateral" aria-label="Neste artigo">
+            <p class="lateral-titulo">Neste artigo</p>
+            <ol>{secoes.map((h) => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}</ol>
+          </nav>
+        )}
+        <div class="lateral-cta">
+          <p class="lateral-titulo">Análise gratuita</p>
+          <p>Descubra a nota de 0 a 100 do perfil da sua empresa no Google.</p>
+          <a class="botao botao-bloco" href={SITE.whatsapp.analise} rel="noopener">Pedir no WhatsApp</a>
+        </div>
+      </div>
+    </aside>
+  </div>
 </Base>

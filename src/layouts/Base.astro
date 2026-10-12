@@ -1,5 +1,9 @@
 ---
+import '@fontsource-variable/fraunces';
+import '@fontsource-variable/inter';
 import '../global.css';
+import fonteTitulo from '@fontsource-variable/fraunces/files/fraunces-latin-wght-normal.woff2?url';
+import fonteTexto from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
 import { SITE } from '../config';
 
 export interface ItemTrilha { nome: string; url?: string }
@@ -12,9 +16,10 @@ interface Props {
   trilha?: ItemTrilha[];
   imagem?: string;
   trilhaVisivel?: boolean;
+  trilhaEscura?: boolean;
 }
 
-const { titulo, descricao = SITE.descricao, tipo = 'website', schema = [], semIndex = false, trilha = [], imagem = '/og.png', trilhaVisivel = true } = Astro.props;
+const { titulo, descricao = SITE.descricao, tipo = 'website', schema = [], semIndex = false, trilha = [], imagem = '/og.png', trilhaVisivel = true, trilhaEscura = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, SITE.url).href;
 const comMarca = `${titulo} | ${SITE.nome}`;
 const tituloCompleto = titulo.includes(SITE.nome) || comMarca.length > 62 ? titulo : comMarca;
@@ -65,6 +70,8 @@ const ativo = (href: string) => caminho === href || (href !== '/blog/' && caminh
     <link rel="canonical" href={canonical} />
     <meta name="robots" content={semIndex ? 'noindex, follow' : 'index, follow, max-image-preview:large, max-snippet:-1'} />
     <meta name="author" content={SITE.autor} />
+    <link rel="preload" href={fonteTitulo} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={fonteTexto} as="font" type="font/woff2" crossorigin />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="sitemap" href="/sitemap.xml" />
     <link rel="alternate" type="application/rss+xml" title={SITE.nome} href="/rss.xml" />
@@ -101,14 +108,14 @@ const ativo = (href: string) => caminho === href || (href !== '/blog/' && caminh
     </header>
     <main id="conteudo">
       {trilha.length > 0 && trilhaVisivel && (
-        <div class="container" style="padding-top:24px">
+        <div class:list={['faixa-trilha', { escura: trilhaEscura }]}><div class="container">
           <nav class="trilha" aria-label="Você está em">
             <ol>
               <li><a href="/">Início</a></li>
               {trilha.map((t) => <li>{t.url ? <a href={t.url}>{t.nome}</a> : <span aria-current="page">{t.nome}</span>}</li>)}
             </ol>
           </nav>
-        </div>
+        </div></div>
       )}
       <slot />
     </main>
@@ -116,7 +123,7 @@ const ativo = (href: string) => caminho === href || (href !== '/blog/' && caminh
       <div class="container">
         <div class="colunas">
           <div>
-            <h2>{SITE.nome}</h2>
+            <h2 class="marca-rodape">Avaliações <span>que Vendem</span></h2>
             <p>Método de {SITE.autor} para transformar avaliações do Google em clientes.</p>
             <p>{SITE.marca} · {SITE.regiao}</p>
           </div>

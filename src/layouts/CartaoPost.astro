@@ -1,0 +1,20 @@
+---
+import { capaSvg, tempoLeitura } from '../lib/capa';
+import { urlPost, type Post } from '../lib/posts';
+import { temaPorId } from '../temas';
+interface Props { post: Post; destaque?: boolean; nivel?: 'h2' | 'h3' }
+const { post, destaque = false, nivel = 'h3' } = Astro.props;
+const url = urlPost(post);
+const tema = temaPorId(post.data.tema)?.nome ?? 'Guia completo';
+const min = tempoLeitura(post.body);
+const Titulo = nivel;
+---
+<article class:list={['card-post', { destaque }]}>
+  <a class="card-capa" href={url} tabindex="-1" aria-hidden="true" set:html={capaSvg(post.data.tema, post.id)} />
+  <div class="card-corpo">
+    <p class="card-meta"><span class="chip">{tema}</span><span>{min} min de leitura</span></p>
+    <Titulo class="card-titulo"><a href={url}>{post.data.titulo}</a></Titulo>
+    <p class="card-resumo">{destaque ? post.data.resumo : post.data.descricao}</p>
+    {destaque && <a class="botao" href={url}>Ler o guia completo</a>}
+  </div>
+</article>
