@@ -2,23 +2,37 @@
 import Base from '../../layouts/Base.astro';
 import Chamada from '../../layouts/Chamada.astro';
 import { NICHOS, type Nicho } from '../../nichos';
+import { PILAR_URL } from '../../temas';
+import { SITE } from '../../config';
 
 export function getStaticPaths() {
   return NICHOS.map((n) => ({ params: { nicho: n.slug }, props: { n } }));
 }
 const { n } = Astro.props as { n: Nicho };
+const outros = NICHOS.filter((x) => x.slug !== n.slug);
+const schema = [{
+  '@context': 'https://schema.org', '@type': 'Article', headline: n.titulo, description: n.descricao, inLanguage: 'pt-BR',
+  author: { '@id': `${SITE.url}/sobre/#quemuel` }, publisher: { '@id': `${SITE.url}/#organizacao` },
+  mainEntityOfPage: `${SITE.url}/avaliacoes-para/${n.slug}/`, image: `${SITE.url}/og.png`,
+}];
 ---
-<Base titulo={n.titulo} descricao={n.descricao}>
-  <article class="artigo">
-    <div class="container leitura conteudo">
-      <nav class="trilha" aria-label="Trilha"><a href="/">Início</a> › <a href="/avaliacoes-para/">Segmentos</a> › {n.nome}</nav>
+<Base titulo={n.tituloSeo} descricao={n.descricao} schema={schema} trilha={[{ nome: 'Segmentos', url: '/avaliacoes-para/' }, { nome: n.nome }]}>
+  <article class="artigo" style="padding-top:8px">
+    <div class="container leitura centro conteudo">
       <h1>{n.titulo}</h1>
-      <p>{n.intro}</p>
-      <h2>Onde a maioria erra</h2>
+      <div class="resumo"><strong>Resposta rápida</strong><p>{n.intro}</p></div>
+      <h2>Onde a maioria erra?</h2>
       <ul>{n.dores.map((d) => <li>{d}</li>)}</ul>
-      <h2>Estratégias que funcionam para {n.nome.toLowerCase()}</h2>
+      <h2>Que estratégias funcionam para {n.nome.toLowerCase()}?</h2>
       {n.estrategias.map((e) => (<><h3>{e.titulo}</h3><p>{e.texto}</p></>))}
-      <p>Quer ver o método completo? Comece pelo <a href="/blog/guia-completo-avaliacoes-google/">guia completo de avaliações no Google</a>.</p>
+      <h2>Por onde continuar</h2>
+      <ul>
+        <li><a href={PILAR_URL}>Guia completo de avaliações no Google</a></li>
+        <li><a href="/avaliacoes-no-google/como-pedir-avaliacoes/">Como pedir avaliações sem parecer insistente</a></li>
+        <li><a href="/avaliacoes-no-google/responder-avaliacoes-negativas/">Como responder avaliações negativas</a></li>
+        <li><a href="/avaliacoes-no-google/texto-das-avaliacoes/">Por que o texto das avaliações vale mais que a nota</a></li>
+      </ul>
+      <p class="meta">Outros segmentos: {outros.map((o, i) => <>{i > 0 && ' · '}<a href={`/avaliacoes-para/${o.slug}/`}>{o.nome}</a></>)}</p>
       <Chamada titulo={`Quer aplicar isso em ${n.nome.toLowerCase()}?`} />
     </div>
   </article>
