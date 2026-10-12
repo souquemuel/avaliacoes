@@ -1,24 +1,38 @@
 ---
 import Base from '../layouts/Base.astro';
-import { SITE } from '../config';
+import { SITE, linkEbook } from '../config';
+import { PILAR_URL } from '../temas';
+const schema = [{
+  '@context': 'https://schema.org', '@type': 'Book', name: 'Guia das Avaliações que Vendem', inLanguage: 'pt-BR',
+  author: { '@id': `${SITE.url}/sobre/#quemuel` }, bookFormat: 'https://schema.org/EBook', url: `${SITE.url}/ebook/`,
+}];
 ---
-<Base titulo="Guia das Avaliações que Vendem (ebook)" descricao="O ebook Guia das Avaliações que Vendem mostra, passo a passo, como transformar as avaliações do Google em novos clientes para o seu negócio local.">
-  <article class="artigo">
-    <div class="container leitura conteudo">
+<Base titulo="Ebook Guia das Avaliações que Vendem" descricao="O ebook Guia das Avaliações que Vendem mostra, passo a passo, como transformar as avaliações do Google em novos clientes para o seu negócio local." schema={schema} trilha={[{ nome: 'Ebook' }]} trilhaVisivel={false}>
+  <section class="hero" style="padding-top:32px">
+    <div class="container">
       <span class="selo">Ebook</span>
       <h1>Guia das Avaliações que Vendem</h1>
-      <p>Um guia prático para donos de negócios locais que querem mais clientes sem depender de anúncios. Sem jargão de marketing: o que fazer, quando fazer e como fazer para que as suas avaliações no Google trabalhem a favor da venda.</p>
-      <h2>O que você vai aprender</h2>
-      <ul>
-        <li>Como pedir avaliações sem constrangimento, e no momento certo.</li>
-        <li>Como responder elogios e críticas de um jeito que convence quem está lendo.</li>
-        <li>Como fazer os clientes escreverem avaliações que respondem às dúvidas dos próximos clientes.</li>
-      </ul>
-      <p>
-        {SITE.ebookUrl
-          ? <a class="botao" href={SITE.ebookUrl} rel="noopener">Quero o guia</a>
-          : <em>Link de compra em breve.</em>}
-      </p>
+      <p class="sub">O passo a passo para donos de negócios locais que querem mais clientes pelo Google sem depender de anúncios. Sem jargão de marketing: o que fazer, quando fazer e como fazer.</p>
+      <div class="acoes"><a class="botao" href={linkEbook} rel="noopener">Quero o guia</a></div>
+      <p class="nota-cta">{SITE.ebookUrl ? 'Acesso imediato após a compra.' : `Fale comigo pelo WhatsApp ${SITE.whatsappExibicao} para receber o link de compra.`}</p>
     </div>
-  </article>
+  </section>
+  <section class="secao">
+    <div class="container duas-colunas">
+      <div>
+        <h2 class="topo-secao">O que você vai aprender</h2>
+        <ul class="lista-check">
+          <li>Como pedir avaliações sem constrangimento, no momento certo.</li>
+          <li>Como responder elogios e críticas de um jeito que convence quem está lendo.</li>
+          <li>Como fazer os clientes escreverem avaliações que respondem às dúvidas dos próximos clientes.</li>
+          <li>O que o Google proíbe, para você crescer sem riscos.</li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="topo-secao">Para quem é</h2>
+        <p>Para quem cuida do próprio negócio e quer aplicar o método sozinho, com a equipe. Se você prefere que façamos com você, conheça a <a href="/consultoria/">consultoria</a>.</p>
+        <p>Antes de comprar, leia o <a href={PILAR_URL}>guia gratuito de avaliações no Google</a> e veja se a abordagem faz sentido para você.</p>
+      </div>
+    </div>
+  </section>
 </Base>

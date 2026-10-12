@@ -2,28 +2,38 @@
 import Base from '../layouts/Base.astro';
 import Chamada from '../layouts/Chamada.astro';
 import { SITE } from '../config';
+import { PILAR_URL } from '../temas';
 const schema = [{
   '@context': 'https://schema.org',
-  '@type': 'Person',
-  '@id': `${SITE.url}/sobre/#quemuel`,
-  name: SITE.autor,
-  jobTitle: 'Especialista em posicionamento no Google e avaliações',
-  url: `${SITE.url}/sobre/`,
-  worksFor: { '@id': `${SITE.url}/#organizacao` },
-  knowsAbout: ['Google Business Profile', 'Avaliações no Google', 'SEO local', 'Posicionamento no Google'],
-  ...(SITE.perfis.length ? { sameAs: SITE.perfis } : {}),
+  '@type': 'ProfilePage',
+  mainEntity: {
+    '@type': 'Person',
+    '@id': `${SITE.url}/sobre/#quemuel`,
+    name: SITE.autor,
+    jobTitle: 'Especialista em posicionamento no Google e avaliações',
+    url: `${SITE.url}/sobre/`,
+    worksFor: { '@id': `${SITE.url}/#organizacao` },
+    homeLocation: { '@type': 'Place', name: SITE.regiao },
+    knowsAbout: ['Perfil da Empresa no Google', 'Google Meu Negócio', 'Avaliações no Google', 'SEO local', 'Posicionamento no Google'],
+    ...(SITE.perfis.length ? { sameAs: SITE.perfis } : {}),
+  },
 }];
 ---
-<Base titulo="Sobre Quemuel Verdum" descricao="Quemuel Verdum é especialista em posicionamento no Google e criador do método Avaliações que Vendem, com mais de 1.700 clientes atendidos." schema={schema}>
-  <article class="artigo">
-    <div class="container leitura conteudo">
+<Base titulo="Quemuel Verdum, especialista em avaliações no Google" descricao="Quemuel Verdum é especialista em posicionamento no Google e criador do método Avaliações que Vendem, com mais de 1.700 clientes atendidos pela Empresa 1%." schema={schema} trilha={[{ nome: 'Sobre' }]}>
+  <article class="artigo" style="padding-top:8px">
+    <div class="container leitura centro conteudo">
       <span class="selo">Sobre</span>
       <h1>Quemuel Verdum</h1>
-      <p>Sou especialista em posicionamento no Google e criador do método <strong>Avaliações que Vendem</strong>. À frente da {SITE.marca}, já atendi mais de 1.700 clientes a partir da {SITE.regiao}.</p>
+      <div class="resumo"><strong>Em resumo</strong><p>Especialista em posicionamento no Google e criador do método Avaliações que Vendem. À frente da {SITE.marca}, já atendeu mais de 1.700 clientes a partir da {SITE.regiao}.</p></div>
       <h2>Posicionamento, não promessa de ranking</h2>
       <p>Eu não vendo primeira posição no Google. Ninguém sério pode prometer isso. O que eu entrego é posicionamento: a forma como a sua empresa se comunica no exato momento em que o cliente a encontra. Perfil completo, informações organizadas e avaliações que respondem às dúvidas de quem está decidindo.</p>
-      <h2>O método</h2>
-      <p>O Avaliações que Vendem reúne 25 estratégias para transformar avaliações do Google em clientes: como pedir, quando pedir, como responder e como usar o que os clientes escrevem a favor da venda. Este blog é onde eu abro esse método, estratégia por estratégia.</p>
+      <h2>O método Avaliações que Vendem</h2>
+      <p>O método reúne 25 estratégias para transformar avaliações do Google em clientes, organizadas em três pilares: pedir, responder e usar. Este site é onde eu abro esse método, estratégia por estratégia. Comece pelo <a href={PILAR_URL}>guia completo de avaliações no Google</a>.</p>
+      <h2>Como posso ajudar</h2>
+      <ul>
+        <li><a href="/consultoria/">Consultoria</a>: deixamos o seu perfil completo e montamos a estratégia de avaliações com você.</li>
+        <li><a href="/ebook/">Ebook</a>: o passo a passo para aplicar o método por conta própria.</li>
+      </ul>
       <Chamada />
     </div>
   </article>

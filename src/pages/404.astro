@@ -1,10 +1,11 @@
 ---
 import Base from '../layouts/Base.astro';
+import { PILAR_URL } from '../temas';
 ---
 <Base titulo="Página não encontrada" semIndex>
-  <section class="artigo"><div class="container leitura">
+  <section class="artigo"><div class="container leitura centro">
     <h1>Página não encontrada</h1>
-    <p>Essa página não existe ou mudou de endereço.</p>
-    <p><a class="botao" href="/">Voltar ao início</a></p>
+    <p>Essa página não existe ou mudou de endereço. Tente um destes caminhos:</p>
+    <div class="acoes"><a class="botao" href={PILAR_URL}>Guia de avaliações no Google</a><a class="botao secundario" href="/">Página inicial</a></div>
   </div></section>
 </Base>

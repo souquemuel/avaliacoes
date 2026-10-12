@@ -1,26 +1,94 @@
 ---
 import Base from '../layouts/Base.astro';
+import Chamada from '../layouts/Chamada.astro';
 import { SITE } from '../config';
+import { PILAR_URL } from '../temas';
+
+const faq = [
+  { pergunta: 'Vocês garantem primeira posição no Google?', resposta: 'Não. Ninguém pode garantir posição no Google. A consultoria trabalha o posicionamento: o que o cliente vê e sente quando encontra a sua empresa.' },
+  { pergunta: 'Preciso ter um perfil no Google?', resposta: 'Sim. A consultoria é para empresas que já estão no Google e querem usar todo o potencial do perfil.' },
+  { pergunta: 'O que eu preciso enviar?', resposta: 'Para a análise inicial: nome da empresa, endereço, cidade e estado. Depois da aprovação do projeto, pedimos as informações aos poucos (serviços, links, WhatsApp de atendimento, descrição da empresa), e boa parte buscamos nas suas redes sociais e no seu site.' },
+  { pergunta: 'Vocês compram ou criam avaliações?', resposta: 'Não. Trabalhamos só com avaliações reais de clientes, dentro das políticas do Google.' },
+  { pergunta: 'Como é o pagamento?', resposta: 'O projeto é vendido em pacote, com pagamento parcelado em até 12 vezes. Os valores são apresentados depois da análise do seu perfil.' },
+];
+const schema = [
+  {
+    '@context': 'https://schema.org', '@type': 'Service', name: 'Consultoria de posicionamento no Google',
+    serviceType: 'Otimização do Perfil da Empresa no Google e estratégia de avaliações',
+    provider: { '@id': `${SITE.url}/#organizacao` }, areaServed: 'BR', url: `${SITE.url}/consultoria/`,
+    description: 'Perfil da Empresa no Google 100% completo e estratégia de avaliações para o cliente escolher a sua empresa.',
+  },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.pergunta, acceptedAnswer: { '@type': 'Answer', text: f.resposta } })) },
+];
 ---
-<Base titulo="Consultoria de posicionamento no Google" descricao="Consultoria para deixar o perfil da sua empresa no Google completo e com avaliações que transmitem credibilidade e geram clientes.">
-  <article class="artigo">
-    <div class="container leitura conteudo">
-      <span class="selo">Consultoria</span>
+<Base titulo="Consultoria para Google Meu Negócio e avaliações" descricao="Consultoria para deixar o perfil da sua empresa no Google completo e com avaliações que geram clientes. Análise gratuita do perfil pelo WhatsApp." schema={schema} trilha={[{ nome: 'Consultoria' }]} trilhaVisivel={false}>
+  <section class="hero" style="padding-top:32px">
+    <div class="container">
+      <span class="selo">Consultoria · {SITE.marca}</span>
       <h1>Seu perfil no Google com a credibilidade que faz o cliente escolher você</h1>
-      <p>Trabalho com empresas que já estão no Google, mas não usam todo o potencial da ferramenta. O projeto deixa o seu perfil completo e preparado para converter quem chega até ele.</p>
-      <h2>O que está incluído</h2>
-      <ul>
-        <li>Perfil 100% completo: categorias e subcategorias, serviços, produtos, redes sociais e atualizações.</li>
-        <li>Estratégia de avaliações: como pedir, como responder e como usar as avaliações na venda.</li>
-        <li>Consultoria ao final do projeto para a sua equipe seguir com autonomia.</li>
-      </ul>
-      <h2>Como começa</h2>
-      <p>Primeiro eu analiso o seu perfil atual e dou uma nota de 0 a 100 para a qualidade dele. Para isso, preciso apenas do nome da empresa, do endereço e da cidade e estado.</p>
-      <p id="contato">
-        {SITE.whatsapp
-          ? <a class="botao" href={SITE.whatsapp} rel="noopener">Pedir minha análise pelo WhatsApp</a>
-          : <em>Canal de contato em breve.</em>}
-      </p>
+      <p class="sub">Para empresas que já estão no Google, mas não usam todo o potencial do perfil. Deixamos o seu Perfil da Empresa completo e montamos a estratégia de avaliações para converter quem encontra você.</p>
+      <div class="acoes">
+        <a class="botao" href={SITE.whatsapp.analise} rel="noopener">Quero minha análise gratuita</a>
+      </div>
+      <p class="nota-cta">Pelo WhatsApp {SITE.whatsappExibicao}. Você recebe uma nota de 0 a 100 para o seu perfil.</p>
+      <div class="prova"><div><strong>1.700+</strong><span>clientes atendidos</span></div><div><strong>12x</strong><span>pagamento parcelado</span></div></div>
     </div>
-  </article>
+  </section>
+
+  <section class="secao clara">
+    <div class="container">
+      <span class="selo">O que muda</span>
+      <h2 class="topo-secao">Ser encontrado não basta. É preciso ser escolhido.</h2>
+      <p class="intro-secao">Não vendo primeira posição: ninguém sério garante isso. Entrego posicionamento, a comunicação que o seu perfil transmite no momento em que o cliente encontra a sua empresa.</p>
+      <div class="grade">
+        <div class="cartao"><h3>Perfil 100% completo</h3><p>Categorias e subcategorias, serviços, produtos, redes sociais e atualizações, organizados para o cliente entender rápido o que você faz.</p></div>
+        <div class="cartao"><h3>Estratégia de avaliações</h3><p>Quando e como pedir, como responder e como usar as avaliações a favor da venda, com roteiros para a sua equipe.</p></div>
+        <div class="cartao"><h3>Consultoria ao final</h3><p>Uma sessão depois da conclusão do projeto para a sua equipe seguir com autonomia.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="secao">
+    <div class="container">
+      <span class="selo">Como funciona</span>
+      <h2 class="topo-secao">Do diagnóstico ao perfil que vende</h2>
+      <div class="grade">
+        <div class="cartao"><div class="numero">01</div><h3>Análise do perfil</h3><p>Você envia nome, endereço e cidade. Eu analiso o seu perfil e dou uma nota de 0 a 100.</p></div>
+        <div class="cartao"><div class="numero">02</div><h3>Proposta</h3><p>Mostro o que dá para melhorar e se consigo ajudar o seu negócio. Se não fizer sentido, eu digo.</p></div>
+        <div class="cartao"><div class="numero">03</div><h3>Execução</h3><p>Após a aprovação, pedimos as informações aos poucos e completamos o perfil.</p></div>
+        <div class="cartao"><div class="numero">04</div><h3>Consultoria final</h3><p>Entregamos o projeto e orientamos a equipe para manter as avaliações trabalhando.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="secao escuro">
+    <div class="container duas-colunas">
+      <div>
+        <h2 class="topo-secao">É para você se…</h2>
+        <ul class="lista-check">
+          <li>a sua empresa já está no Google, mas o perfil está incompleto ou desatualizado;</li>
+          <li>os clientes gostam do seu trabalho, mas isso não aparece nas avaliações;</li>
+          <li>você trata o posicionamento como investimento, não como gasto;</li>
+          <li>você tem várias unidades e quer um padrão para todas.</li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="topo-secao">Não é para você se…</h2>
+        <ul class="lista-check lista-x">
+          <li>você quer garantia de 1º lugar no Google;</li>
+          <li>você quer comprar avaliações ou usar atalhos proibidos;</li>
+          <li>a sua empresa ainda não tem perfil no Google.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="secao">
+    <div class="container leitura centro">
+      <h2 class="topo-secao">Perguntas frequentes</h2>
+      <div class="faq">{faq.map((f) => (<details><summary>{f.pergunta}</summary><p>{f.resposta}</p></details>))}</div>
+      <Chamada titulo="Comece pela análise gratuita" semEbook />
+      <p class="meta">Quer entender o método antes? Leia o <a href={PILAR_URL}>guia completo de avaliações no Google</a>.</p>
+    </div>
+  </section>
 </Base>

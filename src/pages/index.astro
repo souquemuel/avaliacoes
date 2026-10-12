@@ -1,55 +1,110 @@
 ---
 import Base from '../layouts/Base.astro';
 import Chamada from '../layouts/Chamada.astro';
-import { getCollection } from 'astro:content';
 import { SITE } from '../config';
 import { NICHOS } from '../nichos';
+import { TEMAS, PILAR_URL, urlTema } from '../temas';
+import { postsPublicados, urlPost } from '../lib/posts';
 
-const posts = (await getCollection('blog', ({ data }) => !data.rascunho))
-  .sort((a, b) => b.data.data.valueOf() - a.data.data.valueOf())
-  .slice(0, 6);
-const linkEbook = SITE.ebookUrl || '/ebook/';
-const schema = [{
-  '@context': 'https://schema.org',
-  '@type': 'WebSite',
-  name: SITE.nome,
-  url: SITE.url,
-  inLanguage: 'pt-BR',
-  publisher: { '@id': `${SITE.url}/#organizacao` },
-}];
+const posts = (await postsPublicados()).filter((p) => !p.data.pilar).slice(0, 5);
+
+const faq = [
+  { pergunta: 'Avaliações no Google trazem clientes de verdade?', resposta: 'Sim. Antes de ligar, visitar ou comprar, o cliente lê o que outras pessoas escreveram sobre a sua empresa. Avaliações recentes, detalhadas e bem respondidas reduzem a dúvida e fazem o cliente escolher você.' },
+  { pergunta: 'Vocês garantem o primeiro lugar no Google?', resposta: 'Não. Ninguém sério garante posição no Google. O trabalho é de posicionamento: deixar o perfil completo e as avaliações convincentes para que, quando o cliente encontrar a sua empresa, ele escolha você.' },
+  { pergunta: 'Posso pedir para amigos avaliarem ou comprar avaliações?', resposta: 'Não. Avaliações falsas ou compradas violam as políticas do Google, podem ser removidas e destroem a credibilidade que você quer construir. O método trabalha só com avaliações reais de clientes.' },
+  { pergunta: 'Preciso investir em anúncios?', resposta: 'Não. O método usa o que você já tem: o seu perfil no Google e os seus clientes satisfeitos.' },
+  { pergunta: 'Serve para o meu tipo de negócio?', resposta: 'Serve para qualquer negócio que o cliente pesquisa no Google antes de escolher: restaurantes, clínicas, imobiliárias, salões, lojas, oficinas e prestadores de serviço.' },
+];
+
+const schema = [
+  { '@context': 'https://schema.org', '@type': 'WebSite', '@id': `${SITE.url}/#site`, name: SITE.nome, url: `${SITE.url}/`, inLanguage: 'pt-BR', publisher: { '@id': `${SITE.url}/#organizacao` } },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.pergunta, acceptedAnswer: { '@type': 'Answer', text: f.resposta } })) },
+];
 ---
-<Base titulo="Avaliações que Vendem: transforme avaliações do Google em clientes" schema={schema}>
+<Base titulo="Avaliações que Vendem: mais clientes com avaliações no Google" descricao="Aprenda a pedir, responder e usar avaliações do Google para o cliente escolher a sua empresa. Método de Quemuel Verdum, com mais de 1.700 clientes atendidos." schema={schema}>
   <section class="hero">
     <div class="container">
       <span class="selo">Método Avaliações que Vendem</span>
-      <h1>Avaliações do Google que fazem o cliente escolher você</h1>
-      <p>Quem encontra a sua empresa no Google lê as avaliações antes de ligar, visitar ou comprar. Aqui você aprende a transformar essas avaliações em credibilidade e em novos clientes, sem depender de anúncios.</p>
+      <h1>Avaliações no Google que fazem o cliente escolher você</h1>
+      <p class="sub">Antes de ligar, visitar ou comprar, o cliente lê o que outros escreveram sobre a sua empresa. Aprenda a pedir, responder e usar as suas avaliações para transformar quem pesquisa em quem compra, sem depender de anúncios.</p>
       <div class="acoes">
-        <a class="botao" href="/blog/guia-completo-avaliacoes-google/">Ler o guia completo</a>
-        <a class="botao secundario" href={linkEbook}>Conhecer o ebook</a>
+        <a class="botao" href={SITE.whatsapp.analise} rel="noopener">Quero uma análise do meu perfil</a>
+        <a class="botao secundario" href={PILAR_URL}>Ler o guia gratuito</a>
+      </div>
+      <p class="nota-cta">Análise pelo WhatsApp {SITE.whatsappExibicao}, sem compromisso.</p>
+      <div class="prova" aria-label="Números">
+        <div><strong>1.700+</strong><span>clientes atendidos</span></div>
+        <div><strong>25</strong><span>estratégias no método</span></div>
       </div>
     </div>
   </section>
 
   <section class="secao clara">
     <div class="container">
-      <h2 style="margin-top:0">Avaliação não é vaidade. É o seu vendedor que nunca dorme.</h2>
-      <p class="leitura" style="margin-left:0">A maioria das empresas trata avaliações como um número. O método Avaliações que Vendem trata cada avaliação como argumento de venda: o que o cliente escreveu, como a empresa respondeu e o que o próximo cliente sente ao ler tudo isso.</p>
-      <div class="numeros">
-        <div><strong>1.700+</strong>clientes atendidos</div>
-        <div><strong>25</strong>estratégias no método</div>
+      <span class="selo">O problema</span>
+      <h2 class="topo-secao">Nota alta não basta. O cliente lê o que está escrito.</h2>
+      <p class="intro-secao">A maioria das empresas trata avaliação como número. Enquanto isso, três coisas afastam clientes todos os dias:</p>
+      <div class="grade">
+        <div class="cartao"><h3>Avaliações genéricas</h3><p>"Muito bom, recomendo" não responde nenhuma dúvida de quem está escolhendo entre você e o concorrente.</p></div>
+        <div class="cartao"><h3>Críticas sem resposta</h3><p>Uma reclamação sem resposta passa a imagem de descaso, e é lida por todos os próximos clientes.</p></div>
+        <div class="cartao"><h3>Clientes felizes que não avaliam</h3><p>Seus melhores clientes não deixam avaliação porque ninguém pediu na hora certa, do jeito certo.</p></div>
       </div>
     </div>
   </section>
 
   <section class="secao">
     <div class="container">
-      <h2 style="margin-top:0">Artigos recentes</h2>
+      <span class="selo">O método</span>
+      <h2 class="topo-secao">Três pilares para as avaliações trabalharem a favor da venda</h2>
+      <p class="intro-secao">O Avaliações que Vendem reúne 25 estratégias organizadas em três frentes.</p>
       <div class="grade">
+        {TEMAS.map((t, i) => (
+          <article class="cartao">
+            <div class="numero" aria-hidden="true">0{i + 1}</div>
+            <h3><a class="titulo" href={urlTema(t)}>{t.nome}</a></h3>
+            <p>{t.descricao}</p>
+            <a class="mais" href={urlTema(t)}>Ver artigos →</a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="secao escuro">
+    <div class="container duas-colunas">
+      <div>
+        <span class="selo">Posicionamento, não promessa</span>
+        <h2 class="topo-secao">Ranqueamento é ser encontrado. Posicionamento é ser escolhido.</h2>
+        <p>Ninguém pode garantir a primeira posição no Google, e quem promete isso está vendendo o que não controla. O que está sob o seu controle é o que o cliente vê quando encontra a sua empresa: perfil completo, informações claras e avaliações que convencem.</p>
+        <p>É isso que eu entrego: a credibilidade que faz o cliente escolher você.</p>
+      </div>
+      <div>
+        <h3>É para você se…</h3>
+        <ul class="lista-check">
+          <li>a sua empresa já está no Google, mas não usa todo o potencial do perfil;</li>
+          <li>os seus clientes gostam do seu trabalho, mas quase ninguém avalia;</li>
+          <li>você quer mais clientes sem depender de anúncios;</li>
+          <li>você quer crescer com avaliações reais, sem atalhos arriscados.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="secao">
+    <div class="container">
+      <span class="selo">Comece por aqui</span>
+      <h2 class="topo-secao">Artigos para aplicar ainda hoje</h2>
+      <div class="grade">
+        <article class="cartao" style="border-color:var(--ouro)">
+          <p class="meta">Guia completo</p>
+          <h3><a class="titulo" href={PILAR_URL}>Guia completo de avaliações no Google</a></h3>
+          <p>A visão geral do método: como pedir, responder e usar avaliações para vender mais.</p>
+          <a class="mais" href={PILAR_URL}>Ler o guia →</a>
+        </article>
         {posts.map((p) => (
           <article class="cartao">
-            <p class="meta">{p.data.categoria}</p>
-            <h3><a class="titulo" href={`/blog/${p.id}/`}>{p.data.titulo}</a></h3>
+            <p class="meta">{TEMAS.find((t) => t.id === p.data.tema)?.nome}</p>
+            <h3><a class="titulo" href={urlPost(p)}>{p.data.titulo}</a></h3>
             <p>{p.data.descricao}</p>
           </article>
         ))}
@@ -60,7 +115,8 @@ const schema = [{
 
   <section class="secao clara">
     <div class="container">
-      <h2 style="margin-top:0">Avaliações por segmento</h2>
+      <span class="selo">Por segmento</span>
+      <h2 class="topo-secao">Avaliações no Google para o seu tipo de negócio</h2>
       <div class="grade">
         {NICHOS.map((n) => (
           <article class="cartao">
@@ -72,7 +128,14 @@ const schema = [{
     </div>
   </section>
 
-  <div class="container leitura">
-    <Chamada />
-  </div>
+  <section class="secao">
+    <div class="container leitura centro">
+      <span class="selo">Dúvidas comuns</span>
+      <h2 class="topo-secao">Perguntas frequentes</h2>
+      <div class="faq">
+        {faq.map((f) => (<details><summary>{f.pergunta}</summary><p>{f.resposta}</p></details>))}
+      </div>
+      <Chamada titulo="Descubra quanto o seu perfil está deixando na mesa" />
+    </div>
+  </section>
 </Base>
