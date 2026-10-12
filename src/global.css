@@ -175,8 +175,8 @@ p { margin: 0 0 var(--e-4); }
 .card-post { position: relative; background: var(--papel); border: 1px solid var(--linha); border-radius: var(--raio); overflow: hidden; display: flex; flex-direction: column; box-shadow: var(--sombra); transition: transform .2s, box-shadow .2s; }
 .card-post:hover { transform: translateY(-3px); box-shadow: var(--sombra-forte); }
 .card-capa { display: block; aspect-ratio: 16 / 9; overflow: hidden; background: var(--tinta); }
-.card-capa svg { width: 100%; height: 100%; transition: transform .4s; }
-.card-post:hover .card-capa svg { transform: scale(1.03); }
+.card-capa svg, .card-capa img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s; }
+.card-post:hover .card-capa svg, .card-post:hover .card-capa img { transform: scale(1.04); }
 .card-corpo { padding: var(--e-5); display: flex; flex-direction: column; flex: 1; }
 .card-titulo { font-size: 1.28rem; margin: 0 0 var(--e-2); line-height: 1.25; }
 .card-titulo a { color: var(--tinta); text-decoration: none; }
@@ -186,6 +186,7 @@ p { margin: 0 0 var(--e-4); }
 .card-post.destaque { display: grid; grid-template-columns: 1.1fr 1fr; }
 .card-post.destaque .card-capa { aspect-ratio: auto; display: flex; align-items: center; background: #121419; }
 .card-post.destaque .card-capa svg { height: auto; aspect-ratio: 16 / 9; }
+.card-post.destaque .card-capa img { height: 100%; min-height: 340px; object-position: 72% center; }
 .card-post.destaque .card-corpo { padding: var(--e-7) var(--e-6); justify-content: center; }
 .card-post.destaque .card-titulo { font-size: clamp(1.6rem, 3vw, 2.2rem); }
 .card-post.destaque .card-resumo { font-size: 1.05rem; margin-bottom: var(--e-5); }
@@ -210,7 +211,7 @@ p { margin: 0 0 var(--e-4); }
 .post-topo .chip { background: rgba(214,168,74,.15); color: var(--ouro); }
 .post-topo .card-meta { color: #a9a59c; }
 .post-capa { border-radius: var(--raio); overflow: hidden; aspect-ratio: 16 / 9; box-shadow: 0 30px 60px rgba(0,0,0,.35); border: 1px solid rgba(255,255,255,.08); }
-.post-capa svg { width: 100%; height: 100%; }
+.post-capa svg, .post-capa img { width: 100%; height: 100%; object-fit: cover; }
 .post-autor { display: flex; align-items: center; gap: var(--e-3); font-size: .9rem; color: #a9a59c; margin-top: var(--e-5); line-height: 1.45; }
 .post-autor a { color: #fff; }
 @media (max-width: 860px) { .post-topo-grade { grid-template-columns: 1fr; gap: var(--e-5); } .post-capa { order: -1; } }

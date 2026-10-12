@@ -3,6 +3,8 @@ export interface Nicho {
   nome: string;
   titulo: string;
   tituloSeo: string;
+  capa: string;
+  capaAlt: string;
   descricao: string;
   intro: string;
   dores: string[];
@@ -14,6 +16,8 @@ export const NICHOS: Nicho[] = [
     slug: 'restaurantes',
     nome: 'Restaurantes',
     tituloSeo: 'Avaliações no Google para restaurantes',
+    capa: 'restaurantes',
+    capaAlt: 'Mesa de restaurante sofisticado com prato autoral, taça de vinho tinto e uma estrela dourada',
     titulo: 'Avaliações no Google para restaurantes: como transformar elogios em mesas cheias',
     descricao:
       'Como restaurantes, bares e cafés usam as avaliações do Google para serem escolhidos por quem está decidindo onde comer agora.',
@@ -34,6 +38,8 @@ export const NICHOS: Nicho[] = [
     slug: 'clinicas',
     nome: 'Clínicas e consultórios',
     tituloSeo: 'Avaliações no Google para clínicas e consultórios',
+    capa: 'clinicas',
+    capaAlt: 'Balcão de recepção de clínica em pedra escura com estetoscópio dourado e uma estrela dourada',
     titulo: 'Avaliações no Google para clínicas e consultórios: credibilidade antes da primeira consulta',
     descricao:
       'Como clínicas, consultórios e profissionais de saúde constroem credibilidade no Google com avaliações, respeitando a ética da profissão.',
@@ -54,6 +60,8 @@ export const NICHOS: Nicho[] = [
     slug: 'imobiliarias',
     nome: 'Imobiliárias e corretores',
     tituloSeo: 'Avaliações no Google para imobiliárias',
+    capa: 'imobiliarias',
+    capaAlt: 'Chaves de casa douradas com chaveiro de couro, caneta tinteiro e contrato sobre a mesa, ao lado de uma estrela dourada',
     titulo: 'Avaliações no Google para imobiliárias: a confiança que antecede o primeiro contato',
     descricao:
       'Como imobiliárias e corretores usam avaliações do Google para gerar confiança em uma decisão de alto valor.',

@@ -13,6 +13,9 @@ const blog = defineCollection({
     // Resposta direta em 1–2 frases (aparece no topo; usada por IAs e trechos em destaque)
     resumo: z.string().max(320),
     palavraChave: z.string(),
+    // Capa fotográfica: nome do arquivo em public/capas/ (sem extensão). Sem capa = capa SVG automática.
+    capa: z.string().optional(),
+    capaAlt: z.string().optional(),
     tema: z.enum(['pedir', 'responder', 'usar', 'guia']),
     data: z.coerce.date(),
     atualizado: z.coerce.date().optional(),
