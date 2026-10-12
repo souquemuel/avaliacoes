@@ -15,6 +15,8 @@ Leia antes de criar conteúdo: `docs/publico-comprador.md`, `docs/arquitetura.md
    descricao: "Meta description, 140–160 caracteres."
    resumo: "Resposta direta em 1–3 frases (aparece como 'Resposta rápida')."
    palavraChave: "consulta principal"
+   capa: nome-da-capa              # opcional: arquivo em public/capas/ (sem extensão)
+   capaAlt: "descrição da imagem"  # obrigatório se tiver capa
    tema: pedir | responder | usar
    data: AAAA-MM-DD
    faq:            # opcional, só perguntas reais
@@ -22,6 +24,7 @@ Leia antes de criar conteúdo: `docs/publico-comprador.md`, `docs/arquitetura.md
        resposta: "..."
    rascunho: false
    ```
+   Sem `capa`, o artigo usa a capa SVG automática do tema. Para criar uma capa: gere a imagem no estilo do site (prompts em `docs/design.md`) e rode `python3 scripts/otimizar-capas.py imagem.png nome-da-capa`.
 3. No 1º parágrafo, link para o pilar `/avaliacoes-no-google/`. H2 em forma de pergunta com resposta direta na 1ª frase. 1–2 links para artigos irmãos.
 4. Marque o item como feito na pauta de `docs/arquitetura.md` e, se for um assunto central, adicione um link contextual no pilar.
 5. Rode `npm run build` (falha se o frontmatter estiver fora do padrão). Commit e push na `main`.
@@ -51,4 +54,6 @@ Leia antes de criar conteúdo: `docs/publico-comprador.md`, `docs/arquitetura.md
 - `src/pages/avaliacoes-no-google/` — pilar, temas e artigos.
 - `src/pages/blog/[...slug].astro` — redirecionamentos de endereços antigos.
 - `src/pages/sitemap.xml.ts`, `rss.xml.ts`, `llms.txt.ts` — gerados no build.
+- `public/capas/` — capas fotográficas (WebP 1536 e 768 + JPG 1200x630 para compartilhamento).
+- `scripts/otimizar-capas.py` — converte uma imagem nova nas três versões da capa.
 - `docs/` — público, arquitetura, SEO, design e variantes de copy.
