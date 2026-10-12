@@ -129,11 +129,14 @@ const schema = [
     <div class="container">
       <span class="selo">Por segmento</span>
       <h2 class="topo-secao">Avaliações no Google para o seu tipo de negócio</h2>
-      <div class="grade">
+      <div class="grade-posts" style="margin-top:32px">
         {NICHOS.map((n) => (
-          <article class="cartao">
-            <h3><a class="titulo" href={`/avaliacoes-para/${n.slug}/`}>{n.nome}</a></h3>
-            <p>{n.descricao}</p>
+          <article class="card-post">
+            <a class="card-capa" href={`/avaliacoes-para/${n.slug}/`} tabindex="-1" aria-hidden="true"><img src={`/capas/${n.capa}-768.webp`} width="768" height="432" loading="lazy" decoding="async" alt={n.capaAlt} /></a>
+            <div class="card-corpo">
+              <h3 class="card-titulo"><a href={`/avaliacoes-para/${n.slug}/`}>{n.nome}</a></h3>
+              <p class="card-resumo">{n.descricao}</p>
+            </div>
           </article>
         ))}
       </div>
