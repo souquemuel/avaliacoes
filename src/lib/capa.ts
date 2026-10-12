@@ -100,6 +100,10 @@ export function capaSvg(tema: string, slug: string, opcoes: { rotulo?: string; t
 </svg>`;
 }
 
+export function fotoCapa(nome: string) {
+  return { grande: `/capas/${nome}.webp`, media: `/capas/${nome}-768.webp`, social: `/capas/${nome}-og.jpg` };
+}
+
 export function tempoLeitura(texto: string | undefined): number {
   const palavras = (texto ?? '').split(/\s+/).filter(Boolean).length;
   return Math.max(2, Math.round(palavras / 200));
