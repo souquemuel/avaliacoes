@@ -1,0 +1,25 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+const posts = (await getCollection('blog', ({ data }) => !data.rascunho))
+  .sort((a, b) => b.data.data.valueOf() - a.data.data.valueOf());
+const fmt = (d: Date) => d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric', timeZone: 'UTC' });
+---
+<Base titulo="Blog: estratégias de avaliações no Google" descricao="Artigos práticos sobre como pedir, responder e usar avaliações do Google para conquistar clientes.">
+  <section class="artigo">
+    <div class="container">
+      <span class="selo">Blog</span>
+      <h1>Estratégias de avaliações no Google</h1>
+      <p class="leitura" style="margin-left:0">Uma estratégia por artigo, do pedido à resposta, para que as suas avaliações trabalhem a favor da venda.</p>
+      <div class="grade" style="margin-top:32px">
+        {posts.map((p) => (
+          <article class="cartao">
+            <p class="meta">{p.data.categoria} · {fmt(p.data.data)}</p>
+            <h3><a class="titulo" href={`/blog/${p.id}/`}>{p.data.titulo}</a></h3>
+            <p>{p.data.descricao}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>
