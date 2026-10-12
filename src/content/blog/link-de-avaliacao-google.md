@@ -5,6 +5,8 @@ tituloSeo: "Link de avaliação do Google: como criar e usar"
 descricao: "Passo a passo para criar o link e o QR code de avaliação do Perfil da Empresa no Google (Google Meu Negócio) e onde usar cada um para receber mais avaliações."
 resumo: "No Perfil da Empresa (business.google.com), selecione \"Ler avaliações\" e depois o ícone de compartilhar ao lado de \"Receba mais avaliações\". Copie o link ou salve o QR code (o QR code só é gerado pelo navegador do computador). Use o link no WhatsApp e o QR code no balcão, na mesa ou no recibo."
 palavraChave: "link de avaliação do Google"
+capa: link-de-avaliacao
+capaAlt: "Display de mesa preto e dourado com QR code ilustrativo e uma estrela dourada, sobre a mesa de um restaurante"
 tema: pedir
 data: 2026-10-12
 faq:

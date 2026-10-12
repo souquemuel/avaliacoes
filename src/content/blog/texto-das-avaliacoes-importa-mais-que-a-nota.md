@@ -5,6 +5,8 @@ tituloSeo: "Avaliações no Google: por que o texto vale mais que a nota"
 descricao: "Nota 4,9 com avaliações genéricas convence menos do que você imagina. Entenda por que o conteúdo das avaliações do Google é o que realmente vende."
 resumo: "O cliente não decide pela média de estrelas, decide pelo que lê. Avaliações que contam o serviço contratado, o atendimento e o resultado respondem às dúvidas de quem está escolhendo e ajudam o Google a entender o que a sua empresa faz."
 palavraChave: "texto das avaliações do Google"
+capa: texto-das-avaliacoes
+capaAlt: "Lupa dourada ampliando as linhas de texto de um cartão de avaliação com cinco estrelas"
 tema: usar
 data: 2026-10-12
 ---

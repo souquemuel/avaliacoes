@@ -5,6 +5,8 @@ tituloSeo: "Avaliações no Google: guia completo para ter mais clientes"
 descricao: "Como pedir, responder e usar avaliações no Google (Google Meu Negócio) para o cliente escolher a sua empresa. Guia prático, dentro das regras do Google."
 resumo: "Avaliações no Google vendem quando são reais, recentes, detalhadas e bem respondidas. O método Avaliações que Vendem trabalha em três frentes: pedir no momento certo, responder pensando em quem vai ler e usar o conteúdo das avaliações como argumento de venda. Nada de comprar avaliações ou prometer 1º lugar."
 palavraChave: "avaliações no Google"
+capa: guia
+capaAlt: "Cinco estrelas douradas alinhadas sobre pedra preta, iluminadas por luz dourada"
 tema: guia
 pilar: true
 data: 2026-10-12

@@ -5,6 +5,8 @@ tituloSeo: "Comprar avaliações no Google: riscos e o que fazer"
 descricao: "Comprar avaliações no Google viola as regras, pode ser removido e destrói a credibilidade da empresa. Entenda os riscos e como conseguir avaliações reais."
 resumo: "Não compre avaliações. A política do Google Maps proíbe engajamento falso e avaliações pagas, que podem ser removidas. Mesmo quando passam despercebidas, avaliações genéricas e em massa soam falsas para o cliente e destroem a credibilidade que você quer construir."
 palavraChave: "comprar avaliações no Google"
+capa: comprar-avaliacoes
+capaAlt: "Cinco estrelas douradas, sendo a última rachada e oca por dentro, representando avaliações falsas"
 tema: pedir
 data: 2026-10-12
 faq:

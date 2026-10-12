@@ -5,6 +5,8 @@ tituloSeo: "Como pedir avaliações no Google (com frases prontas)"
 descricao: "O momento certo, a frase certa e o link certo: como pedir avaliações no Google de um jeito natural, que o cliente atende e que respeita as regras."
 resumo: "Peça a todos os clientes logo depois de um momento de satisfação, com um link direto para a tela de avaliação e uma sugestão de assunto (o serviço que ele contratou). Nunca ofereça brindes nem peça só para quem vai elogiar: o Google proíbe."
 palavraChave: "como pedir avaliações no Google"
+capa: como-pedir-avaliacoes
+capaAlt: "Cliente segurando o celular no balcão de atendimento, ao lado de um display de acrílico e uma xícara de café"
 tema: pedir
 data: 2026-10-12
 faq:

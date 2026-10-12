@@ -5,6 +5,8 @@ tituloSeo: "Como responder avaliações negativas no Google: roteiro"
 descricao: "Um roteiro em quatro passos para responder críticas no Google de um jeito que transmite confiança para quem está lendo, com exemplo pronto."
 resumo: "Responda em até um ou dois dias, com calma: agradeça e reconheça a experiência, explique sem se justificar, mostre o que foi feito para resolver e convide a pessoa para um canal privado. A resposta é escrita para os próximos clientes, não só para quem reclamou."
 palavraChave: "como responder avaliações negativas no Google"
+capa: responder-avaliacoes-negativas
+capaAlt: "Balão de conversa escuro e desgastado com um balão dourado à frente, representando a resposta da empresa a uma crítica"
 tema: responder
 data: 2026-10-12
 faq:

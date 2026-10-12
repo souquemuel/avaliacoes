@@ -5,6 +5,8 @@ tituloSeo: "Como apagar avaliação negativa no Google? O que é possível"
 descricao: "A empresa não apaga avaliações no Google, mas pode denunciar as que violam as regras. Veja quando a remoção é possível, como denunciar e o que fazer depois."
 resumo: "A empresa não consegue apagar avaliações. Você pode denunciar no Perfil da Empresa as que violam as políticas do Google (spam, ofensas, conflito de interesses, conteúdo falso); discordar da avaliação não é motivo de remoção. Para todas as outras, a solução é uma boa resposta."
 palavraChave: "apagar avaliação negativa no Google"
+capa: apagar-avaliacao-negativa
+capaAlt: "Balão de conversa escuro com uma bandeira dourada de sinalização ao lado, representando a denúncia de uma avaliação"
 tema: responder
 data: 2026-10-12
 faq:
