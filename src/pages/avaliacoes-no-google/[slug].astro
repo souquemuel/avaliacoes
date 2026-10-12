@@ -2,6 +2,7 @@
 import Post from '../../layouts/Post.astro';
 import Base from '../../layouts/Base.astro';
 import Chamada from '../../layouts/Chamada.astro';
+import CartaoPost from '../../layouts/CartaoPost.astro';
 import { render } from 'astro:content';
 import { postsPublicados, urlPost, type Post as TPost } from '../../lib/posts';
 import { TEMAS, PILAR_URL, urlTema, type Tema } from '../../temas';
@@ -27,7 +28,6 @@ if (props.tipo === 'post') {
 }
 const t = props.tipo === 'tema' ? props.t : null;
 const lista = t ? props.posts.filter((p) => p.data.tema === t.id) : [];
-const outros = t ? TEMAS.filter((x) => x.id !== t.id) : [];
 const schemaTema = t ? [{
   '@context': 'https://schema.org', '@type': 'CollectionPage', name: t.titulo, description: t.descricao,
   url: `${SITE.url}${urlTema(t)}`, isPartOf: { '@type': 'WebSite', '@id': `${SITE.url}/#site` },
@@ -35,27 +35,27 @@ const schemaTema = t ? [{
 }] : [];
 ---
 {props.tipo === 'post' ? (
-  <Post {...props.post.data} headings={headings} relacionados={relacionados}>
+  <Post {...props.post.data} slug={props.post.id} corpo={props.post.body} headings={headings} relacionados={relacionados}>
     <Content />
   </Post>
 ) : t && (
-  <Base titulo={t.titulo} descricao={t.descricao} trilha={[{ nome: 'Avaliações no Google', url: PILAR_URL }, { nome: t.nome }]} schema={schemaTema}>
-    <section class="artigo" style="padding-top:8px">
+  <Base titulo={t.titulo} descricao={t.descricao} trilha={[{ nome: 'Avaliações no Google', url: PILAR_URL }, { nome: t.nome }]} trilhaEscura schema={schemaTema}>
+    <section class="pagina-topo">
       <div class="container">
         <span class="selo">{t.nome}</span>
         <h1>{t.titulo}</h1>
         <p class="intro-secao">{t.intro} Para a visão geral do método, leia o <a href={PILAR_URL}>guia completo de avaliações no Google</a>.</p>
-        <div class="grade">
-          {lista.map((p) => (
-            <article class="cartao">
-              <h2 style="font-size:1.25rem;margin:0 0 8px"><a class="titulo" href={urlPost(p)}>{p.data.titulo}</a></h2>
-              <p>{p.data.resumo}</p>
-              <a class="mais" href={urlPost(p)} aria-label={`Ler: ${p.data.titulo}`}>Ler artigo →</a>
-            </article>
-          ))}
+        <nav class="filtros" aria-label="Temas">
+          {TEMAS.map((o) => <a href={urlTema(o)} aria-current={o.id === t.id ? 'page' : undefined}>{o.nome}</a>)}
+        </nav>
+      </div>
+    </section>
+    <section class="pagina-corpo">
+      <div class="container">
+        <div class="grade-posts">
+          {lista.map((p) => <CartaoPost post={p} nivel="h2" />)}
         </div>
-        <p class="meta" style="margin-top:32px">Outros temas: {outros.map((o, i) => <>{i > 0 && ' · '}<a href={urlTema(o)}>{o.nome}</a></>)}</p>
-        <div class="leitura"><Chamada /></div>
+        <div class="leitura centro"><Chamada /></div>
       </div>
     </section>
   </Base>
