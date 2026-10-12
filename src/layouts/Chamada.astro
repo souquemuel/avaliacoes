@@ -1,17 +1,17 @@
 ---
-import { SITE } from '../config';
-interface Props { titulo?: string; texto?: string; }
+import { SITE, linkEbook } from '../config';
+interface Props { titulo?: string; texto?: string; botao?: string; link?: string; semEbook?: boolean }
 const {
-  titulo = 'Quer que as suas avaliações comecem a vender?',
-  texto = 'Conheça o Guia das Avaliações que Vendem ou fale comigo sobre uma consultoria para o seu negócio.',
+  titulo = 'Quer saber se as suas avaliações estão vendendo?',
+  texto = 'Me chame no WhatsApp: eu analiso o perfil da sua empresa no Google, dou uma nota de 0 a 100 e mostro o que dá para melhorar.',
+  botao = 'Quero minha análise pelo WhatsApp',
+  link = SITE.whatsapp.analise,
+  semEbook = false,
 } = Astro.props;
-const linkEbook = SITE.ebookUrl || '/ebook/';
 ---
-<aside class="chamada">
+<aside class="chamada" aria-label="Fale comigo">
   <h2>{titulo}</h2>
   <p>{texto}</p>
-  <p style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:0">
-    <a class="botao" href={linkEbook}>Conhecer o ebook</a>
-    <a class="botao secundario" style="color:#fff;border-color:#fff" href="/consultoria/">Consultoria</a>
-  </p>
+  <div class="acoes"><a class="botao" href={link} rel="noopener">{botao}</a></div>
+  <p class="nota-cta">Sem compromisso: basta informar o nome da empresa e a cidade.{!semEbook && <> Prefere aprender sozinho? <a href={linkEbook} rel="noopener" style="color:#fff">Conheça o ebook</a>.</>}</p>
 </aside>

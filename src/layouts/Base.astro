@@ -2,17 +2,23 @@
 import '../global.css';
 import { SITE } from '../config';
 
+export interface ItemTrilha { nome: string; url?: string }
 interface Props {
   titulo: string;
   descricao?: string;
   tipo?: 'website' | 'article';
   schema?: Record<string, unknown>[];
   semIndex?: boolean;
+  trilha?: ItemTrilha[];
+  imagem?: string;
+  trilhaVisivel?: boolean;
 }
 
-const { titulo, descricao = SITE.descricao, tipo = 'website', schema = [], semIndex = false } = Astro.props;
+const { titulo, descricao = SITE.descricao, tipo = 'website', schema = [], semIndex = false, trilha = [], imagem = '/og.png', trilhaVisivel = true } = Astro.props;
 const canonical = new URL(Astro.url.pathname, SITE.url).href;
-const tituloCompleto = titulo === SITE.nome ? titulo : `${titulo} | ${SITE.nome}`;
+const comMarca = `${titulo} | ${SITE.nome}`;
+const tituloCompleto = titulo.includes(SITE.nome) || comMarca.length > 62 ? titulo : comMarca;
+const imagemAbs = new URL(imagem, SITE.url).href;
 const caminho = Astro.url.pathname;
 
 const organizacao = {
@@ -20,20 +26,34 @@ const organizacao = {
   '@type': 'Organization',
   '@id': `${SITE.url}/#organizacao`,
   name: SITE.nome,
-  url: SITE.url,
+  alternateName: SITE.marca,
+  url: `${SITE.url}/`,
   logo: `${SITE.url}/favicon.svg`,
+  description: SITE.descricao,
   founder: { '@id': `${SITE.url}/sobre/#quemuel` },
+  areaServed: 'BR',
+  contactPoint: { '@type': 'ContactPoint', contactType: 'customer service', telephone: '+55-51-98997-8057', availableLanguage: 'pt-BR' },
   ...(SITE.perfis.length ? { sameAs: SITE.perfis } : {}),
 };
-const dados = [organizacao, ...schema];
+const dados: Record<string, unknown>[] = [organizacao, ...schema];
+if (trilha.length) {
+  dados.push({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [{ nome: 'Início', url: '/' }, ...trilha].map((t, i) => ({
+      '@type': 'ListItem', position: i + 1, name: t.nome, ...(t.url ? { item: new URL(t.url, SITE.url).href } : { item: canonical }),
+    })),
+  });
+}
 
 const menu = [
+  { href: '/avaliacoes-no-google/', rotulo: 'Guia completo' },
   { href: '/blog/', rotulo: 'Blog' },
-  { href: '/blog/guia-completo-avaliacoes-google/', rotulo: 'Guia completo' },
+  { href: '/avaliacoes-para/', rotulo: 'Segmentos' },
   { href: '/ebook/', rotulo: 'Ebook' },
-  { href: '/consultoria/', rotulo: 'Consultoria' },
   { href: '/sobre/', rotulo: 'Sobre' },
 ];
+const ativo = (href: string) => caminho === href || (href !== '/blog/' && caminho.startsWith(href)) || (href === '/blog/' && caminho === '/blog/');
 ---
 <!doctype html>
 <html lang="pt-BR">
@@ -43,49 +63,92 @@ const menu = [
     <title>{tituloCompleto}</title>
     <meta name="description" content={descricao} />
     <link rel="canonical" href={canonical} />
-    {semIndex && <meta name="robots" content="noindex" />}
+    <meta name="robots" content={semIndex ? 'noindex, follow' : 'index, follow, max-image-preview:large, max-snippet:-1'} />
+    <meta name="author" content={SITE.autor} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="sitemap" href="/sitemap.xml" />
+    <link rel="alternate" type="application/rss+xml" title={SITE.nome} href="/rss.xml" />
     <meta name="theme-color" content="#14161c" />
     <meta property="og:type" content={tipo} />
     <meta property="og:locale" content="pt_BR" />
     <meta property="og:site_name" content={SITE.nome} />
-    <meta property="og:title" content={tituloCompleto} />
+    <meta property="og:title" content={titulo} />
     <meta property="og:description" content={descricao} />
     <meta property="og:url" content={canonical} />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content={imagemAbs} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={imagemAbs} />
     <script type="application/ld+json" set:html={JSON.stringify(dados)} />
   </head>
   <body>
     <a class="pular" href="#conteudo">Pular para o conteúdo</a>
     <header class="topo">
       <div class="container">
-        <a class="logo" href="/">
-          <svg width="26" height="26" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 6l7.6 15.4 17 2.5-12.3 12 2.9 16.9L32 44.8l-15.2 8 2.9-16.9-12.3-12 17-2.5z" fill="#c9a24a"/></svg>
+        <a class="logo" href="/" aria-label="Avaliações que Vendem, página inicial">
+          <svg width="24" height="24" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 6l7.6 15.4 17 2.5-12.3 12 2.9 16.9L32 44.8l-15.2 8 2.9-16.9-12.3-12 17-2.5z" fill="#d6a84a"/></svg>
           <span class="logo-texto">Avaliações <span>que Vendem</span></span>
         </a>
+        <a class="cta-mobile" href="/consultoria/">Consultoria</a>
         <nav class="menu" aria-label="Menu principal">
           {menu.map((item) => (
-            <a href={item.href} aria-current={caminho === item.href ? 'page' : undefined}>{item.rotulo}</a>
+            <a href={item.href} aria-current={ativo(item.href) ? 'page' : undefined}>{item.rotulo}</a>
           ))}
+          <a class="menu-cta" href="/consultoria/" aria-current={caminho === '/consultoria/' ? 'page' : undefined}>Consultoria</a>
         </nav>
       </div>
     </header>
     <main id="conteudo">
+      {trilha.length > 0 && trilhaVisivel && (
+        <div class="container" style="padding-top:24px">
+          <nav class="trilha" aria-label="Você está em">
+            <ol>
+              <li><a href="/">Início</a></li>
+              {trilha.map((t) => <li>{t.url ? <a href={t.url}>{t.nome}</a> : <span aria-current="page">{t.nome}</span>}</li>)}
+            </ol>
+          </nav>
+        </div>
+      )}
       <slot />
     </main>
     <footer class="rodape">
       <div class="container">
-        <div>
-          <strong style="color:#fff">{SITE.nome}</strong><br />
-          Conteúdo de {SITE.autor} · {SITE.marca}<br />
-          {SITE.regiao}
+        <div class="colunas">
+          <div>
+            <h2>{SITE.nome}</h2>
+            <p>Método de {SITE.autor} para transformar avaliações do Google em clientes.</p>
+            <p>{SITE.marca} · {SITE.regiao}</p>
+          </div>
+          <nav aria-label="Conteúdo">
+            <h2>Conteúdo</h2>
+            <ul>
+              <li><a href="/avaliacoes-no-google/">Guia completo</a></li>
+              <li><a href="/avaliacoes-no-google/pedir/">Pedir avaliações</a></li>
+              <li><a href="/avaliacoes-no-google/responder/">Responder avaliações</a></li>
+              <li><a href="/avaliacoes-no-google/usar/">Usar avaliações</a></li>
+              <li><a href="/blog/">Todos os artigos</a></li>
+            </ul>
+          </nav>
+          <nav aria-label="Segmentos">
+            <h2>Segmentos</h2>
+            <ul>
+              <li><a href="/avaliacoes-para/restaurantes/">Restaurantes</a></li>
+              <li><a href="/avaliacoes-para/clinicas/">Clínicas e consultórios</a></li>
+              <li><a href="/avaliacoes-para/imobiliarias/">Imobiliárias</a></li>
+            </ul>
+          </nav>
+          <div>
+            <h2>Fale comigo</h2>
+            <ul>
+              <li><a href={SITE.whatsapp.geral} rel="noopener">WhatsApp {SITE.whatsappExibicao}</a></li>
+              <li><a href="/consultoria/">Consultoria</a></li>
+              <li><a href="/ebook/">Ebook</a></li>
+              <li><a href="/sobre/">Sobre Quemuel</a></li>
+            </ul>
+          </div>
         </div>
-        <nav aria-label="Rodapé">
-          <a href="/blog/">Blog</a> · <a href="/avaliacoes-para/restaurantes/">Restaurantes</a> ·
-          <a href="/avaliacoes-para/clinicas/">Clínicas</a> · <a href="/avaliacoes-para/imobiliarias/">Imobiliárias</a><br />
-          © {new Date().getFullYear()} {SITE.autor}
-        </nav>
+        <p class="base">© {new Date().getFullYear()} {SITE.autor}. Conteúdo educativo; não garantimos posições no Google.</p>
       </div>
     </footer>
   </body>
