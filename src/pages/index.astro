@@ -1,12 +1,15 @@
 ---
 import Base from '../layouts/Base.astro';
 import Chamada from '../layouts/Chamada.astro';
+import CartaoPost from '../layouts/CartaoPost.astro';
 import { SITE } from '../config';
 import { NICHOS } from '../nichos';
 import { TEMAS, PILAR_URL, urlTema } from '../temas';
-import { postsPublicados, urlPost } from '../lib/posts';
+import { postsPublicados } from '../lib/posts';
 
-const posts = (await postsPublicados()).filter((p) => !p.data.pilar).slice(0, 5);
+const todos = await postsPublicados();
+const pilar = todos.find((p) => p.data.pilar);
+const posts = todos.filter((p) => !p.data.pilar).slice(0, 3);
 
 const faq = [
   { pergunta: 'Avaliações no Google trazem clientes de verdade?', resposta: 'Sim. Antes de ligar, visitar ou comprar, o cliente lê o que outras pessoas escreveram sobre a sua empresa. Avaliações recentes, detalhadas e bem respondidas reduzem a dúvida e fazem o cliente escolher você.' },
@@ -23,18 +26,37 @@ const schema = [
 ---
 <Base titulo="Avaliações que Vendem: mais clientes com avaliações no Google" descricao="Aprenda a pedir, responder e usar avaliações do Google para o cliente escolher a sua empresa. Método de Quemuel Verdum, com mais de 1.700 clientes atendidos." schema={schema}>
   <section class="hero">
-    <div class="container">
-      <span class="selo">Método Avaliações que Vendem</span>
-      <h1>Avaliações no Google que fazem o cliente escolher você</h1>
-      <p class="sub">Antes de ligar, visitar ou comprar, o cliente lê o que outros escreveram sobre a sua empresa. Aprenda a pedir, responder e usar as suas avaliações para transformar quem pesquisa em quem compra, sem depender de anúncios.</p>
-      <div class="acoes">
-        <a class="botao" href={SITE.whatsapp.analise} rel="noopener">Quero uma análise do meu perfil</a>
-        <a class="botao secundario" href={PILAR_URL}>Ler o guia gratuito</a>
+    <div class="container hero-grade">
+      <div>
+        <span class="selo">Método Avaliações que Vendem</span>
+        <h1>Avaliações no Google que fazem o cliente <em>escolher você</em></h1>
+        <p class="sub">Antes de ligar, visitar ou comprar, o cliente lê o que outros escreveram sobre a sua empresa. Aprenda a pedir, responder e usar as suas avaliações para transformar quem pesquisa em quem compra, sem depender de anúncios.</p>
+        <div class="acoes">
+          <a class="botao" href={SITE.whatsapp.analise} rel="noopener">Quero uma análise do meu perfil</a>
+          <a class="botao secundario" href={PILAR_URL}>Ler o guia gratuito</a>
+        </div>
+        <p class="nota-cta">Análise pelo WhatsApp {SITE.whatsappExibicao}, sem compromisso.</p>
+        <div class="prova" aria-label="Números">
+          <div><strong>1.700+</strong><span>clientes atendidos</span></div>
+          <div><strong>25</strong><span>estratégias no método</span></div>
+          <div><strong>3</strong><span>pilares: pedir, responder, usar</span></div>
+        </div>
       </div>
-      <p class="nota-cta">Análise pelo WhatsApp {SITE.whatsappExibicao}, sem compromisso.</p>
-      <div class="prova" aria-label="Números">
-        <div><strong>1.700+</strong><span>clientes atendidos</span></div>
-        <div><strong>25</strong><span>estratégias no método</span></div>
+      <div class="demo" aria-label="Exemplo ilustrativo: avaliação genérica comparada a uma avaliação que vende">
+        <div class="demo-card demo-generica" aria-hidden="true">
+          <span class="demo-etiqueta">Avaliação genérica</span>
+          <div class="nome"><span class="avatar">R</span>Ricardo</div>
+          <div class="estrelas">★★★★★</div>
+          <p>Muito bom, recomendo!</p>
+        </div>
+        <div class="demo-card demo-vende">
+          <span class="demo-etiqueta">Avaliação que vende</span>
+          <div class="nome"><span class="avatar">M</span>Mariana</div>
+          <div class="estrelas" aria-label="5 estrelas">★★★★★</div>
+          <p>Fiz o clareamento com a Dra. Ana. Ela explicou cada etapa, o atendimento foi pontual e o resultado ficou natural.</p>
+          <div class="demo-resposta"><strong>Resposta da clínica</strong>Obrigada, Mariana! Que bom que você se sentiu segura em cada etapa. Te esperamos na revisão.</div>
+        </div>
+        <p class="demo-legenda">Exemplo ilustrativo</p>
       </div>
     </div>
   </section>
@@ -45,9 +67,9 @@ const schema = [
       <h2 class="topo-secao">Nota alta não basta. O cliente lê o que está escrito.</h2>
       <p class="intro-secao">A maioria das empresas trata avaliação como número. Enquanto isso, três coisas afastam clientes todos os dias:</p>
       <div class="grade">
-        <div class="cartao"><h3>Avaliações genéricas</h3><p>"Muito bom, recomendo" não responde nenhuma dúvida de quem está escolhendo entre você e o concorrente.</p></div>
-        <div class="cartao"><h3>Críticas sem resposta</h3><p>Uma reclamação sem resposta passa a imagem de descaso, e é lida por todos os próximos clientes.</p></div>
-        <div class="cartao"><h3>Clientes felizes que não avaliam</h3><p>Seus melhores clientes não deixam avaliação porque ninguém pediu na hora certa, do jeito certo.</p></div>
+        <div class="cartao"><div class="icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8M8 12h5"/></svg></div><h3>Avaliações genéricas</h3><p>"Muito bom, recomendo" não responde nenhuma dúvida de quem está escolhendo entre você e o concorrente.</p></div>
+        <div class="cartao"><div class="icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16.5v.5"/></svg></div><h3>Críticas sem resposta</h3><p>Uma reclamação sem resposta passa a imagem de descaso, e é lida por todos os próximos clientes.</p></div>
+        <div class="cartao"><div class="icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.6 5.4 5.9.8-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.8z"/></svg></div><h3>Clientes felizes que não avaliam</h3><p>Seus melhores clientes não deixam avaliação porque ninguém pediu na hora certa, do jeito certo.</p></div>
       </div>
     </div>
   </section>
@@ -92,24 +114,14 @@ const schema = [
 
   <section class="secao">
     <div class="container">
-      <span class="selo">Comece por aqui</span>
-      <h2 class="topo-secao">Artigos para aplicar ainda hoje</h2>
-      <div class="grade">
-        <article class="cartao" style="border-color:var(--ouro)">
-          <p class="meta">Guia completo</p>
-          <h3><a class="titulo" href={PILAR_URL}>Guia completo de avaliações no Google</a></h3>
-          <p>A visão geral do método: como pedir, responder e usar avaliações para vender mais.</p>
-          <a class="mais" href={PILAR_URL}>Ler o guia →</a>
-        </article>
-        {posts.map((p) => (
-          <article class="cartao">
-            <p class="meta">{TEMAS.find((t) => t.id === p.data.tema)?.nome}</p>
-            <h3><a class="titulo" href={urlPost(p)}>{p.data.titulo}</a></h3>
-            <p>{p.data.descricao}</p>
-          </article>
-        ))}
+      <div class="cabeca-secao">
+        <div><span class="selo">Comece por aqui</span><h2>Artigos para aplicar ainda hoje</h2></div>
+        <a href="/blog/">Ver todos os artigos →</a>
       </div>
-      <p style="margin-top:24px"><a href="/blog/">Ver todos os artigos →</a></p>
+      {pilar && <CartaoPost post={pilar} destaque />}
+      <div class="grade-posts" style="margin-top:24px">
+        {posts.map((p) => <CartaoPost post={p} />)}
+      </div>
     </div>
   </section>
 

@@ -19,11 +19,13 @@ const schema = [{
   },
 }];
 ---
-<Base titulo="Quemuel Verdum, especialista em avaliações no Google" descricao="Quemuel Verdum é especialista em posicionamento no Google e criador do método Avaliações que Vendem, com mais de 1.700 clientes atendidos pela Empresa 1%." schema={schema} trilha={[{ nome: 'Sobre' }]}>
-  <article class="artigo" style="padding-top:8px">
+<Base titulo="Quemuel Verdum, especialista em avaliações no Google" descricao="Quemuel Verdum é especialista em posicionamento no Google e criador do método Avaliações que Vendem, com mais de 1.700 clientes atendidos pela Empresa 1%." schema={schema} trilha={[{ nome: 'Sobre' }]} trilhaEscura>
+  <header class="pagina-topo"><div class="container" style="display:flex;gap:24px;align-items:center;flex-wrap:wrap">
+    <span class="monograma grande" style="width:88px;height:88px;font-size:1.8rem" aria-hidden="true">QV</span>
+    <div><span class="selo">Sobre</span><h1 style="margin:0">Quemuel Verdum</h1><p class="intro-secao" style="margin:8px 0 0">Especialista em posicionamento no Google · {SITE.marca}</p></div>
+  </div></header>
+  <article class="pagina-corpo">
     <div class="container leitura centro conteudo">
-      <span class="selo">Sobre</span>
-      <h1>Quemuel Verdum</h1>
       <div class="resumo"><strong>Em resumo</strong><p>Especialista em posicionamento no Google e criador do método Avaliações que Vendem. À frente da {SITE.marca}, já atendeu mais de 1.700 clientes a partir da {SITE.regiao}.</p></div>
       <h2>Posicionamento, não promessa de ranking</h2>
       <p>Eu não vendo primeira posição no Google. Ninguém sério pode prometer isso. O que eu entrego é posicionamento: a forma como a sua empresa se comunica no exato momento em que o cliente a encontra. Perfil completo, informações organizadas e avaliações que respondem às dúvidas de quem está decidindo.</p>
