@@ -1,0 +1,18 @@
+---
+import Base from '../../layouts/Base.astro';
+import { NICHOS } from '../../nichos';
+---
+<Base titulo="Avaliações no Google por segmento" descricao="Estratégias de avaliações no Google adaptadas para restaurantes, clínicas, imobiliárias e outros negócios locais.">
+  <section class="artigo"><div class="container">
+    <span class="selo">Segmentos</span>
+    <h1>Avaliações no Google por segmento</h1>
+    <div class="grade" style="margin-top:32px">
+      {NICHOS.map((n) => (
+        <article class="cartao">
+          <h3><a class="titulo" href={`/avaliacoes-para/${n.slug}/`}>{n.nome}</a></h3>
+          <p>{n.descricao}</p>
+        </article>
+      ))}
+    </div>
+  </div></section>
+</Base>

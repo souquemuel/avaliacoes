@@ -1,0 +1,25 @@
+---
+import Base from '../../layouts/Base.astro';
+import Chamada from '../../layouts/Chamada.astro';
+import { NICHOS, type Nicho } from '../../nichos';
+
+export function getStaticPaths() {
+  return NICHOS.map((n) => ({ params: { nicho: n.slug }, props: { n } }));
+}
+const { n } = Astro.props as { n: Nicho };
+---
+<Base titulo={n.titulo} descricao={n.descricao}>
+  <article class="artigo">
+    <div class="container leitura conteudo">
+      <nav class="trilha" aria-label="Trilha"><a href="/">Início</a> › <a href="/avaliacoes-para/">Segmentos</a> › {n.nome}</nav>
+      <h1>{n.titulo}</h1>
+      <p>{n.intro}</p>
+      <h2>Onde a maioria erra</h2>
+      <ul>{n.dores.map((d) => <li>{d}</li>)}</ul>
+      <h2>Estratégias que funcionam para {n.nome.toLowerCase()}</h2>
+      {n.estrategias.map((e) => (<><h3>{e.titulo}</h3><p>{e.texto}</p></>))}
+      <p>Quer ver o método completo? Comece pelo <a href="/blog/guia-completo-avaliacoes-google/">guia completo de avaliações no Google</a>.</p>
+      <Chamada titulo={`Quer aplicar isso em ${n.nome.toLowerCase()}?`} />
+    </div>
+  </article>
+</Base>
