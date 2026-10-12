@@ -10,11 +10,14 @@ import { PILAR_URL } from '../../temas';
     <p class="intro-secao">Cada segmento tem dúvidas próprias do cliente. Escolha o seu ou comece pelo <a href={PILAR_URL}>guia completo de avaliações no Google</a>.</p>
   </div></section>
   <section class="pagina-corpo"><div class="container">
-    <div class="grade" style="margin-top:0">
+    <div class="grade-posts">
       {NICHOS.map((n) => (
-        <article class="cartao">
-          <h2 style="font-size:1.25rem;margin:0 0 8px"><a class="titulo" href={`/avaliacoes-para/${n.slug}/`}>{n.nome}</a></h2>
-          <p>{n.descricao}</p>
+        <article class="card-post">
+          <a class="card-capa" href={`/avaliacoes-para/${n.slug}/`} tabindex="-1" aria-hidden="true"><img src={`/capas/${n.capa}-768.webp`} width="768" height="432" loading="lazy" decoding="async" alt={n.capaAlt} /></a>
+          <div class="card-corpo">
+            <h2 class="card-titulo"><a href={`/avaliacoes-para/${n.slug}/`}>{n.nome}</a></h2>
+            <p class="card-resumo">{n.descricao}</p>
+          </div>
         </article>
       ))}
     </div>

@@ -4,22 +4,27 @@ import Chamada from '../../layouts/Chamada.astro';
 import { NICHOS, type Nicho } from '../../nichos';
 import { PILAR_URL } from '../../temas';
 import { SITE } from '../../config';
+import { fotoCapa } from '../../lib/capa';
 
 export function getStaticPaths() {
   return NICHOS.map((n) => ({ params: { nicho: n.slug }, props: { n } }));
 }
 const { n } = Astro.props as { n: Nicho };
 const outros = NICHOS.filter((x) => x.slug !== n.slug);
+const foto = fotoCapa(n.capa);
 const schema = [{
   '@context': 'https://schema.org', '@type': 'Article', headline: n.titulo, description: n.descricao, inLanguage: 'pt-BR',
   author: { '@id': `${SITE.url}/sobre/#quemuel` }, publisher: { '@id': `${SITE.url}/#organizacao` },
-  mainEntityOfPage: `${SITE.url}/avaliacoes-para/${n.slug}/`, image: `${SITE.url}/og.png`,
+  mainEntityOfPage: `${SITE.url}/avaliacoes-para/${n.slug}/`, image: `${SITE.url}${foto.social}`,
 }];
 ---
-<Base titulo={n.tituloSeo} descricao={n.descricao} schema={schema} trilha={[{ nome: 'Segmentos', url: '/avaliacoes-para/' }, { nome: n.nome }]} trilhaEscura>
-  <header class="pagina-topo"><div class="container">
-    <span class="selo">Segmento · {n.nome}</span>
-    <h1>{n.titulo}</h1>
+<Base titulo={n.tituloSeo} descricao={n.descricao} schema={schema} trilha={[{ nome: 'Segmentos', url: '/avaliacoes-para/' }, { nome: n.nome }]} trilhaEscura imagem={foto.social}>
+  <header class="post-topo"><div class="container post-topo-grade">
+    <div>
+      <span class="selo">Segmento · {n.nome}</span>
+      <h1>{n.titulo}</h1>
+    </div>
+    <div class="post-capa"><img src={foto.grande} srcset={`${foto.media} 768w, ${foto.grande} 1536w`} sizes="(max-width: 860px) 100vw, 480px" width="1536" height="864" fetchpriority="high" decoding="async" alt={n.capaAlt} /></div>
   </div></header>
   <article class="pagina-corpo">
     <div class="container leitura centro conteudo">
