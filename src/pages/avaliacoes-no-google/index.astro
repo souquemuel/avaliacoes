@@ -1,0 +1,14 @@
+---
+import Post from '../../layouts/Post.astro';
+import { render } from 'astro:content';
+import { postsPublicados, urlPost } from '../../lib/posts';
+
+const posts = await postsPublicados();
+const pilar = posts.find((p) => p.data.pilar)!;
+const { Content, headings } = await render(pilar);
+const porTema: Record<string, { titulo: string; url: string }[]> = {};
+for (const p of posts.filter((p) => !p.data.pilar)) (porTema[p.data.tema] ??= []).push({ titulo: p.data.titulo, url: urlPost(p) });
+---
+<Post {...pilar.data} headings={headings} relacionados={[]} porTema={porTema}>
+  <Content />
+</Post>

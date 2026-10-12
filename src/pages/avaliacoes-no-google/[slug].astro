@@ -1,0 +1,62 @@
+---
+import Post from '../../layouts/Post.astro';
+import Base from '../../layouts/Base.astro';
+import Chamada from '../../layouts/Chamada.astro';
+import { render } from 'astro:content';
+import { postsPublicados, urlPost, type Post as TPost } from '../../lib/posts';
+import { TEMAS, PILAR_URL, urlTema, type Tema } from '../../temas';
+import { SITE } from '../../config';
+
+export async function getStaticPaths() {
+  const posts = await postsPublicados();
+  const artigos = posts.filter((p) => !p.data.pilar).map((post) => ({ params: { slug: post.id }, props: { tipo: 'post' as const, post, posts } }));
+  const temas = TEMAS.map((t) => ({ params: { slug: t.slug }, props: { tipo: 'tema' as const, t, posts } }));
+  return [...artigos, ...temas];
+}
+const props = Astro.props as { tipo: 'post'; post: TPost; posts: TPost[] } | { tipo: 'tema'; t: Tema; posts: TPost[] };
+const link = (p: TPost) => ({ titulo: p.data.titulo, url: urlPost(p) });
+
+let Content: any = null, headings: any[] = [], relacionados: { titulo: string; url: string }[] = [];
+if (props.tipo === 'post') {
+  ({ Content, headings } = await render(props.post));
+  relacionados = props.posts
+    .filter((p) => p.id !== props.post.id && !p.data.pilar)
+    .sort((a, b) => Number(b.data.tema === props.post.data.tema) - Number(a.data.tema === props.post.data.tema))
+    .slice(0, 3)
+    .map(link);
+}
+const t = props.tipo === 'tema' ? props.t : null;
+const lista = t ? props.posts.filter((p) => p.data.tema === t.id) : [];
+const outros = t ? TEMAS.filter((x) => x.id !== t.id) : [];
+const schemaTema = t ? [{
+  '@context': 'https://schema.org', '@type': 'CollectionPage', name: t.titulo, description: t.descricao,
+  url: `${SITE.url}${urlTema(t)}`, isPartOf: { '@type': 'WebSite', '@id': `${SITE.url}/#site` },
+  hasPart: lista.map((p) => ({ '@type': 'BlogPosting', headline: p.data.titulo, url: `${SITE.url}${urlPost(p)}` })),
+}] : [];
+---
+{props.tipo === 'post' ? (
+  <Post {...props.post.data} headings={headings} relacionados={relacionados}>
+    <Content />
+  </Post>
+) : t && (
+  <Base titulo={t.titulo} descricao={t.descricao} trilha={[{ nome: 'Avaliações no Google', url: PILAR_URL }, { nome: t.nome }]} schema={schemaTema}>
+    <section class="artigo" style="padding-top:8px">
+      <div class="container">
+        <span class="selo">{t.nome}</span>
+        <h1>{t.titulo}</h1>
+        <p class="intro-secao">{t.intro} Para a visão geral do método, leia o <a href={PILAR_URL}>guia completo de avaliações no Google</a>.</p>
+        <div class="grade">
+          {lista.map((p) => (
+            <article class="cartao">
+              <h2 style="font-size:1.25rem;margin:0 0 8px"><a class="titulo" href={urlPost(p)}>{p.data.titulo}</a></h2>
+              <p>{p.data.resumo}</p>
+              <a class="mais" href={urlPost(p)} aria-label={`Ler: ${p.data.titulo}`}>Ler artigo →</a>
+            </article>
+          ))}
+        </div>
+        <p class="meta" style="margin-top:32px">Outros temas: {outros.map((o, i) => <>{i > 0 && ' · '}<a href={urlTema(o)}>{o.nome}</a></>)}</p>
+        <div class="leitura"><Chamada /></div>
+      </div>
+    </section>
+  </Base>
+)}
