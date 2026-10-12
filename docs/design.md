@@ -31,3 +31,13 @@ Espaçamento em escala de 4 px (`--e-1` a `--e-9`). Raio: 14 px (cartões), 10 p
 - [ ] Alvos de toque ≥ 44 px.
 - [ ] Contraste AA em todo texto novo.
 - [ ] Foco visível (`:focus-visible`) em links e botões.
+
+## Capas fotográficas
+
+Estilo único: fotografia still life de produto, fundo preto fosco (#14161c), luz lateral dourada quente, objetos em ouro escovado, muito espaço negativo. Sem texto, sem logotipos (inclusive do Google) e sem rostos.
+
+Prompt-base para novas capas (gerar em 1536x1024 e converter com `scripts/otimizar-capas.py`):
+
+> Fotografia de produto premium, estilo still life editorial. [OBJETOS DA CENA] sobre superfície de pedra preta fosca, fundo preto profundo (#14161c). Luz lateral quente vinda da direita criando brilho dourado (#d6a84a) suave e sombras longas. Composição minimalista, muito espaço negativo, objetos centralizados com margem generosa nas bordas. Sem texto, sem letras, sem logotipos. Formato horizontal 1536x1024.
+
+Sempre preencher `capaAlt` descrevendo o que aparece na imagem.
