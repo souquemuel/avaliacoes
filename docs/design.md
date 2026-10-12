@@ -12,6 +12,10 @@ Tokens em `src/global.css` (`:root`). Não use cores, tamanhos ou espaçamentos 
 | `--ouro-texto` | #7d5c17 | links e selos no claro | 5,8:1 sobre `--fundo` |
 | `--claro-sobre-escuro` | #cfcbc2 | texto em fundo escuro | 11:1 sobre `--tinta` |
 
+Fontes (hospedadas no próprio site via @fontsource): **Fraunces** nos títulos e **Inter** no texto.
+
+Capas dos artigos: geradas automaticamente em SVG por `src/lib/capa.ts` (um motivo por tema). Não é preciso criar imagem para cada artigo.
+
 Espaçamento em escala de 4 px (`--e-1` a `--e-9`). Raio: 14 px (cartões), 10 px (caixas), pílula (botões).
 
 ## Componentes
