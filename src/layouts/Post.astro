@@ -3,7 +3,7 @@ import Base from './Base.astro';
 import Chamada from './Chamada.astro';
 import { SITE } from '../config';
 import { temaPorId, PILAR_URL, TEMAS, urlTema } from '../temas';
-import { capaSvg, tempoLeitura } from '../lib/capa';
+import { capaSvg, fotoCapa, tempoLeitura } from '../lib/capa';
 
 interface Link { titulo: string; url: string }
 interface Props {
@@ -14,6 +14,8 @@ interface Props {
   descricao: string;
   resumo: string;
   palavraChave: string;
+  capa?: string;
+  capaAlt?: string;
   tema: string;
   pilar?: boolean;
   data: Date;
@@ -23,12 +25,14 @@ interface Props {
   relacionados: Link[];
   porTema?: Record<string, Link[]>;
 }
-const { slug, corpo, titulo, tituloSeo, descricao, resumo, palavraChave, tema, pilar, data, atualizado, faq, headings, relacionados, porTema } = Astro.props;
+const { slug, corpo, titulo, tituloSeo, descricao, resumo, palavraChave, capa, capaAlt, tema, pilar, data, atualizado, faq, headings, relacionados, porTema } = Astro.props;
 const url = new URL(Astro.url.pathname, SITE.url).href;
 const t = temaPorId(tema);
 const fmt = (d: Date) => d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric', timeZone: 'UTC' });
 const secoes = headings.filter((h) => h.depth === 2);
 const min = tempoLeitura(corpo);
+const foto = capa ? fotoCapa(capa) : null;
+const imagemSocial = foto ? foto.social : '/og.jpg';
 
 const trilha = pilar
   ? [{ nome: 'Avaliações no Google' }]
@@ -41,7 +45,7 @@ const schema: Record<string, unknown>[] = [{
   description: descricao,
   abstract: resumo,
   keywords: palavraChave,
-  image: `${SITE.url}/og.png`,
+  image: { '@type': 'ImageObject', url: `${SITE.url}${imagemSocial}`, width: 1200, height: 630 },
   datePublished: data.toISOString(),
   dateModified: (atualizado ?? data).toISOString(),
   mainEntityOfPage: url,
@@ -59,7 +63,7 @@ if (faq?.length) {
   });
 }
 ---
-<Base titulo={tituloSeo ?? titulo} descricao={descricao} tipo="article" schema={schema} trilha={trilha} trilhaEscura>
+<Base titulo={tituloSeo ?? titulo} descricao={descricao} tipo="article" schema={schema} trilha={trilha} trilhaEscura imagem={imagemSocial}>
   <header class="post-topo">
     <div class="container post-topo-grade">
       <div>
@@ -73,7 +77,11 @@ if (faq?.length) {
           <span>Por <a href="/sobre/">{SITE.autor}</a><br /><time datetime={data.toISOString()}>{fmt(data)}</time>{atualizado && <> · atualizado em <time datetime={atualizado.toISOString()}>{fmt(atualizado)}</time></>}</span>
         </div>
       </div>
-      <div class="post-capa" set:html={capaSvg(tema, slug)} />
+      {foto ? (
+        <div class="post-capa"><img src={foto.grande} srcset={`${foto.media} 768w, ${foto.grande} 1536w`} sizes="(max-width: 860px) 100vw, 480px" width="1536" height="864" fetchpriority="high" decoding="async" alt={capaAlt ?? ''} /></div>
+      ) : (
+        <div class="post-capa" set:html={capaSvg(tema, slug)} />
+      )}
     </div>
   </header>
 

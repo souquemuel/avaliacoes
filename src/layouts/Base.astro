@@ -19,7 +19,7 @@ interface Props {
   trilhaEscura?: boolean;
 }
 
-const { titulo, descricao = SITE.descricao, tipo = 'website', schema = [], semIndex = false, trilha = [], imagem = '/og.png', trilhaVisivel = true, trilhaEscura = false } = Astro.props;
+const { titulo, descricao = SITE.descricao, tipo = 'website', schema = [], semIndex = false, trilha = [], imagem = '/og.jpg', trilhaVisivel = true, trilhaEscura = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, SITE.url).href;
 const comMarca = `${titulo} | ${SITE.nome}`;
 const tituloCompleto = titulo.includes(SITE.nome) || comMarca.length > 62 ? titulo : comMarca;
