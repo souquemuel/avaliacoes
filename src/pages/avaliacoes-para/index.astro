@@ -3,12 +3,14 @@ import Base from '../../layouts/Base.astro';
 import { NICHOS } from '../../nichos';
 import { PILAR_URL } from '../../temas';
 ---
-<Base titulo="Avaliações no Google por segmento" descricao="Estratégias de avaliações no Google para restaurantes, clínicas, imobiliárias e outros negócios locais, com as dúvidas típicas de cada cliente." trilha={[{ nome: 'Segmentos' }]}>
-  <section class="artigo" style="padding-top:8px"><div class="container">
+<Base titulo="Avaliações no Google por segmento" descricao="Estratégias de avaliações no Google para restaurantes, clínicas, imobiliárias e outros negócios locais, com as dúvidas típicas de cada cliente." trilha={[{ nome: 'Segmentos' }]} trilhaEscura>
+  <section class="pagina-topo"><div class="container">
     <span class="selo">Segmentos</span>
     <h1>Avaliações no Google para o seu tipo de negócio</h1>
     <p class="intro-secao">Cada segmento tem dúvidas próprias do cliente. Escolha o seu ou comece pelo <a href={PILAR_URL}>guia completo de avaliações no Google</a>.</p>
-    <div class="grade">
+  </div></section>
+  <section class="pagina-corpo"><div class="container">
+    <div class="grade" style="margin-top:0">
       {NICHOS.map((n) => (
         <article class="cartao">
           <h2 style="font-size:1.25rem;margin:0 0 8px"><a class="titulo" href={`/avaliacoes-para/${n.slug}/`}>{n.nome}</a></h2>

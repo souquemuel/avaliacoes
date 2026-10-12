@@ -16,10 +16,13 @@ const schema = [{
   mainEntityOfPage: `${SITE.url}/avaliacoes-para/${n.slug}/`, image: `${SITE.url}/og.png`,
 }];
 ---
-<Base titulo={n.tituloSeo} descricao={n.descricao} schema={schema} trilha={[{ nome: 'Segmentos', url: '/avaliacoes-para/' }, { nome: n.nome }]}>
-  <article class="artigo" style="padding-top:8px">
+<Base titulo={n.tituloSeo} descricao={n.descricao} schema={schema} trilha={[{ nome: 'Segmentos', url: '/avaliacoes-para/' }, { nome: n.nome }]} trilhaEscura>
+  <header class="pagina-topo"><div class="container">
+    <span class="selo">Segmento · {n.nome}</span>
+    <h1>{n.titulo}</h1>
+  </div></header>
+  <article class="pagina-corpo">
     <div class="container leitura centro conteudo">
-      <h1>{n.titulo}</h1>
       <div class="resumo"><strong>Resposta rápida</strong><p>{n.intro}</p></div>
       <h2>Onde a maioria erra?</h2>
       <ul>{n.dores.map((d) => <li>{d}</li>)}</ul>
