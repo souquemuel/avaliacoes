@@ -43,10 +43,17 @@ Leia antes de criar conteúdo: `docs/publico-comprador.md`, `docs/arquitetura.md
 - Nada de dados ou estatísticas inventadas. Sem citação de fonte, sem número.
 - Nunca recomendar incentivos em troca de avaliações nem filtrar quem vai avaliar (políticas do Google).
 - Regras do Google citadas sempre com link para a ajuda oficial.
-- Contato: todo CTA principal leva ao WhatsApp (51) 98997-8057 via `SITE.whatsapp` em `src/config.ts`.
+- Contato: todo CTA principal usa `SITE.whatsapp.*` (em `src/config.ts`), que passa pela página `/obrigado/` (mede a conversão) e depois abre o WhatsApp (51) 98997-8057. Nunca linkar `wa.me` direto.
+- O build roda uma checagem de SEO (`integrations/checagem-seo.mjs`) e FALHA se houver: título repetido ou acima de 65 caracteres, meta description fora de 120–160 ou repetida, página sem exatamente 1 H1, imagem sem `alt`.
 
 ## Estrutura
-- `src/config.ts` — nome, URL, WhatsApp (links com mensagem pronta), ebook, perfis sociais.
+- `src/config.ts` — nome, URL, WhatsApp, prazo de resposta, Instagram, ID do Google Analytics (`ga4Id`), endereço do schema local, ebook.
+- `src/cases.ts` — cases com resultado real (a seção só aparece quando a lista tem itens; nunca inventar números).
+- `src/components/Cases.astro` — seção de cases (home e consultoria).
+- `src/pages/obrigado.astro` — página de obrigado (evento GA4 `generate_lead` + redireciona ao WhatsApp).
+- `src/pages/privacidade.astro` — política de privacidade (LGPD). Atualize a data se mudar.
+- `src/pages/404.astro` + `public/.htaccess` — 404 personalizada.
+- `integrations/checagem-seo.mjs` — trava de SEO no build.
 - `src/temas.ts` — temas do hub (pedir, responder, usar).
 - `src/nichos.ts` — páginas /avaliacoes-para/<segmento>/.
 - `src/content/blog/` — pilar e artigos em Markdown.

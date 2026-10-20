@@ -33,7 +33,12 @@
 - `rss.xml` e `llms.txt` gerados automaticamente.
 - JSON-LD: Organization, WebSite, Person (ProfilePage), BlogPosting, FAQPage, BreadcrumbList, CollectionPage, Service, Book.
 - Imagem de compartilhamento `og.png` (1200×630).
-- 404 com `noindex`.
+- 404 personalizada com `noindex`, atalhos para os temas, artigos recentes e CTA; `.htaccess` com `ErrorDocument 404`.
+- Página `/obrigado/` (noindex) por onde passam todos os CTAs: dispara `generate_lead` no GA4.
+- Schema local (Organization + ProfessionalService) com nome, telefone, região e endereço (`SITE.endereco`).
+- FAQ (FAQPage) na home, consultoria, ebook, segmentos e artigos com `faq`.
+- Checagem automática no build: títulos únicos, descrições 120–160, 1 H1, alt em todas as imagens.
+- Política de privacidade (LGPD) e aviso de cookies com Consent Mode v2 (só aparece quando `ga4Id` está preenchido).
 - Endereços antigos `/blog/<artigo>/` redirecionam (meta refresh 0 s + canonical + noindex).
 
 ## Pendências técnicas
@@ -41,7 +46,10 @@
 - Confirmar que `/404.html` responde com status 404 na Hostinger.
 - Cabeçalho HSTS (depende da configuração da Hostinger/CDN).
 - Medir Core Web Vitals no Search Console após 28 dias de dados.
-- Preencher `perfis` em `src/config.ts` (Instagram, LinkedIn) para `sameAs`.
+- Preencher `ga4Id` em `src/config.ts` para ligar o Google Analytics e marcar `generate_lead` como evento-chave no GA4.
+- Preencher `SITE.endereco` (cidade, rua, CEP) se o endereço puder ser público.
+- Cadastrar cases reais em `src/cases.ts`.
+- Acrescentar LinkedIn/YouTube em `perfis` (Instagram já está).
 
 ## AEO/GEO — sinais de entidade a construir
 

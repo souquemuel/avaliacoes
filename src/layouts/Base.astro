@@ -17,27 +17,39 @@ interface Props {
   imagem?: string;
   trilhaVisivel?: boolean;
   trilhaEscura?: boolean;
+  semCtaFixo?: boolean;
 }
 
-const { titulo, descricao = SITE.descricao, tipo = 'website', schema = [], semIndex = false, trilha = [], imagem = '/og.jpg', trilhaVisivel = true, trilhaEscura = false } = Astro.props;
+const { titulo, descricao = SITE.descricao, tipo = 'website', schema = [], semIndex = false, trilha = [], imagem = '/og.jpg', trilhaVisivel = true, trilhaEscura = false, semCtaFixo = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, SITE.url).href;
 const comMarca = `${titulo} | ${SITE.nome}`;
 const tituloCompleto = titulo.includes(SITE.nome) || comMarca.length > 62 ? titulo : comMarca;
 const imagemAbs = new URL(imagem, SITE.url).href;
 const caminho = Astro.url.pathname;
 
+const end = SITE.endereco;
 const organizacao = {
   '@context': 'https://schema.org',
-  '@type': 'Organization',
+  '@type': ['Organization', 'ProfessionalService'],
   '@id': `${SITE.url}/#organizacao`,
   name: SITE.nome,
   alternateName: SITE.marca,
   url: `${SITE.url}/`,
   logo: `${SITE.url}/favicon.svg`,
+  image: `${SITE.url}/og.jpg`,
   description: SITE.descricao,
   founder: { '@id': `${SITE.url}/sobre/#quemuel` },
-  areaServed: 'BR',
-  contactPoint: { '@type': 'ContactPoint', contactType: 'customer service', telephone: '+55-51-98997-8057', availableLanguage: 'pt-BR' },
+  telephone: SITE.telefoneSchema,
+  address: {
+    '@type': 'PostalAddress',
+    ...(end.rua ? { streetAddress: end.rua } : {}),
+    ...(end.cidade ? { addressLocality: end.cidade } : {}),
+    addressRegion: end.estado,
+    ...(end.cep ? { postalCode: end.cep } : {}),
+    addressCountry: end.pais,
+  },
+  areaServed: [{ '@type': 'AdministrativeArea', name: SITE.regiao }, { '@type': 'Country', name: 'Brasil' }],
+  contactPoint: { '@type': 'ContactPoint', contactType: 'customer service', telephone: SITE.telefoneSchema, availableLanguage: 'pt-BR' },
   ...(SITE.perfis.length ? { sameAs: SITE.perfis } : {}),
 };
 const dados: Record<string, unknown>[] = [organizacao, ...schema];
@@ -88,8 +100,27 @@ const ativo = (href: string) => caminho === href || (href !== '/blog/' && caminh
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content={imagemAbs} />
     <script type="application/ld+json" set:html={JSON.stringify(dados)} />
+    {SITE.ga4Id && (
+      <>
+        <script is:inline define:vars={{ ga4: SITE.ga4Id }}>
+          window.dataLayer = window.dataLayer || [];
+          window.gtag = function () { dataLayer.push(arguments); };
+          var aceito = null;
+          try { aceito = localStorage.getItem('consentimento-cookies'); } catch (e) {}
+          gtag('consent', 'default', {
+            analytics_storage: aceito === 'sim' ? 'granted' : 'denied',
+            ad_storage: aceito === 'sim' ? 'granted' : 'denied',
+            ad_user_data: aceito === 'sim' ? 'granted' : 'denied',
+            ad_personalization: 'denied',
+          });
+          gtag('js', new Date());
+          gtag('config', ga4);
+        </script>
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${SITE.ga4Id}`}></script>
+      </>
+    )}
   </head>
-  <body>
+  <body class:list={[{ "com-cta-fixo": !semCtaFixo }]}>
     <a class="pular" href="#conteudo">Pular para o conteúdo</a>
     <header class="topo">
       <div class="container">
@@ -125,7 +156,13 @@ const ativo = (href: string) => caminho === href || (href !== '/blog/' && caminh
           <div>
             <h2 class="marca-rodape">Avaliações <span>que Vendem</span></h2>
             <p>Método de {SITE.autor} para transformar avaliações do Google em clientes.</p>
-            <p>{SITE.marca} · {SITE.regiao}</p>
+            <address class="nap">
+              {SITE.marca}<br />
+              {end.rua && <>{end.rua}<br /></>}
+              {end.cidade ? `${end.cidade}, ${end.estado}` : SITE.regiao}<br />
+              <a href={`tel:${SITE.telefoneSchema.replace(/-/g, '')}`}>{SITE.whatsappExibicao}</a>
+            </address>
+            <p><a class="link-insta" href={SITE.instagram.url} rel="noopener me">Siga no Instagram {SITE.instagram.usuario}</a></p>
           </div>
           <nav aria-label="Conteúdo">
             <h2>Conteúdo</h2>
@@ -152,11 +189,57 @@ const ativo = (href: string) => caminho === href || (href !== '/blog/' && caminh
               <li><a href="/consultoria/">Consultoria</a></li>
               <li><a href="/ebook/">Ebook</a></li>
               <li><a href="/sobre/">Sobre Quemuel</a></li>
+              <li><a href={SITE.instagram.url} rel="noopener me">Instagram {SITE.instagram.usuario}</a></li>
             </ul>
           </div>
         </div>
-        <p class="base">© {new Date().getFullYear()} {SITE.autor}. Conteúdo educativo; não garantimos posições no Google.</p>
+        <p class="base">© {new Date().getFullYear()} {SITE.autor}. Conteúdo educativo; não garantimos posições no Google. · <a href="/privacidade/">Política de privacidade</a></p>
       </div>
     </footer>
+    {!semCtaFixo && (
+      <div class="cta-fixo" role="region" aria-label="Contato rápido">
+        <a class="botao" href={SITE.whatsapp.analise}>Análise gratuita no WhatsApp</a>
+        <span>{SITE.prazoResposta}</span>
+      </div>
+    )}
+    {!semCtaFixo && (
+      <script is:inline>
+        (function () {
+          var barra = document.querySelector('.cta-fixo');
+          var alvo = document.querySelector('.hero .acoes, .post-topo .acoes');
+          if (!barra || !alvo || !('IntersectionObserver' in window)) return;
+          new IntersectionObserver(function (e) { barra.classList.toggle('oculto', e[0].isIntersecting); }).observe(alvo);
+        })();
+      </script>
+    )}
+    {SITE.ga4Id && (
+      <div class="aviso-cookies" id="aviso-cookies" role="dialog" aria-label="Aviso de cookies" hidden>
+        <p>Usamos cookies do Google Analytics para entender como o site é usado. <a href="/privacidade/">Saiba mais</a>.</p>
+        <div class="acoes-cookies">
+          <button type="button" class="botao" data-consentimento="sim">Aceitar</button>
+          <button type="button" class="botao secundario" data-consentimento="nao">Recusar</button>
+        </div>
+      </div>
+    )}
+    {SITE.ga4Id && (
+      <script is:inline>
+        (function () {
+          var aviso = document.getElementById('aviso-cookies');
+          if (!aviso) return;
+          var escolha = null;
+          try { escolha = localStorage.getItem('consentimento-cookies'); } catch (e) {}
+          if (!escolha) aviso.hidden = false;
+          aviso.addEventListener('click', function (ev) {
+            var valor = ev.target && ev.target.getAttribute('data-consentimento');
+            if (!valor) return;
+            try { localStorage.setItem('consentimento-cookies', valor); } catch (e) {}
+            if (valor === 'sim' && window.gtag) {
+              gtag('consent', 'update', { analytics_storage: 'granted', ad_storage: 'granted', ad_user_data: 'granted' });
+            }
+            aviso.hidden = true;
+          });
+        })();
+      </script>
+    )}
   </body>
 </html>

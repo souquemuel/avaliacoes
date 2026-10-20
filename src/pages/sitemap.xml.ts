@@ -18,6 +18,7 @@ export const GET: APIRoute = async () => {
     { loc: '/consultoria/', lastmod: d() },
     { loc: '/ebook/', lastmod: d() },
     { loc: '/sobre/', lastmod: d() },
+    { loc: '/privacidade/', lastmod: '2026-10-20' },
   ];
   const corpo = urls.map((u) => `  <url><loc>${SITE.url}${u.loc}</loc><lastmod>${u.lastmod}</lastmod></url>`).join('\n');
   const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${corpo}\n</urlset>\n`;

@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Chamada from '../layouts/Chamada.astro';
 import CartaoPost from '../layouts/CartaoPost.astro';
+import Cases from '../components/Cases.astro';
 import { SITE } from '../config';
 import { NICHOS } from '../nichos';
 import { TEMAS, PILAR_URL, urlTema } from '../temas';
@@ -35,7 +36,7 @@ const schema = [
           <a class="botao" href={SITE.whatsapp.analise} rel="noopener">Quero uma análise do meu perfil</a>
           <a class="botao secundario" href={PILAR_URL}>Ler o guia gratuito</a>
         </div>
-        <p class="nota-cta">Análise pelo WhatsApp {SITE.whatsappExibicao}, sem compromisso.</p>
+        <p class="nota-cta"><span class="prazo">{SITE.prazoResposta}</span> · análise pelo WhatsApp {SITE.whatsappExibicao}, sem compromisso.</p>
         <div class="prova" aria-label="Números">
           <div><strong>1.700+</strong><span>clientes atendidos</span></div>
           <div><strong>25</strong><span>estratégias no método</span></div>
@@ -91,6 +92,8 @@ const schema = [
       </div>
     </div>
   </section>
+
+  <Cases />
 
   <section class="secao escuro">
     <div class="container duas-colunas">

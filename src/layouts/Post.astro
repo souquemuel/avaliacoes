@@ -76,6 +76,7 @@ if (faq?.length) {
           <span class="monograma" aria-hidden="true">QV</span>
           <span>Por <a href="/sobre/">{SITE.autor}</a><br /><time datetime={data.toISOString()}>{fmt(data)}</time>{atualizado && <> · atualizado em <time datetime={atualizado.toISOString()}>{fmt(atualizado)}</time></>}</span>
         </div>
+        <p class="cta-topo">Quer saber como está o perfil da sua empresa? <a href={SITE.whatsapp.analise}>Peça uma análise gratuita →</a></p>
       </div>
       {foto ? (
         <div class="post-capa"><img src={foto.grande} srcset={`${foto.media} 768w, ${foto.grande} 1536w`} sizes="(max-width: 860px) 100vw, 480px" width="1536" height="864" fetchpriority="high" decoding="async" alt={capaAlt ?? ''} /></div>
@@ -154,7 +155,8 @@ if (faq?.length) {
         <div class="lateral-cta">
           <p class="lateral-titulo">Análise gratuita</p>
           <p>Descubra a nota de 0 a 100 do perfil da sua empresa no Google.</p>
-          <a class="botao botao-bloco" href={SITE.whatsapp.analise} rel="noopener">Pedir no WhatsApp</a>
+          <a class="botao botao-bloco" href={SITE.whatsapp.analise}>Pedir no WhatsApp</a>
+          <p class="nota-cta"><span class="prazo">{SITE.prazoResposta}</span></p>
         </div>
       </div>
     </aside>

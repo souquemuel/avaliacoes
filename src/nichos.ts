@@ -9,6 +9,7 @@ export interface Nicho {
   intro: string;
   dores: string[];
   estrategias: { titulo: string; texto: string }[];
+  faq: { pergunta: string; resposta: string }[];
 }
 
 export const NICHOS: Nicho[] = [
@@ -20,7 +21,14 @@ export const NICHOS: Nicho[] = [
     capaAlt: 'Mesa de restaurante sofisticado com prato autoral, taça de vinho tinto e uma estrela dourada',
     titulo: 'Avaliações no Google para restaurantes: como transformar elogios em mesas cheias',
     descricao:
-      'Como restaurantes, bares e cafés usam as avaliações do Google para serem escolhidos por quem está decidindo onde comer agora.',
+      'Como restaurantes, bares e cafés usam as avaliações do Google para serem escolhidos por quem está decidindo onde comer agora, com estratégias práticas.',
+    faq: [
+      { pergunta: "Posso dar uma sobremesa ou desconto em troca de avaliação?", resposta: "Não. As políticas do Google proíbem oferecer qualquer vantagem em troca de avaliações, e elas podem ser removidas. Peça avaliações honestas, sem condicionar nada a elas." },
+      { pergunta: "Qual o melhor momento para pedir avaliação no restaurante?", resposta: "Logo depois da experiência, enquanto ela está fresca: na hora da conta, com um QR code na mesa ou na comanda, ou numa mensagem no dia seguinte para quem reservou." },
+      { pergunta: "Preciso responder todas as avaliações?", resposta: "O ideal é sim. Comece pelas negativas e pelas mais detalhadas. Quem está escolhendo onde comer lê as respostas para entender como a casa trata os clientes." },
+      { pergunta: "O que fazer com avaliação de alguém que nunca veio ao restaurante?", resposta: "Responda com calma, dizendo que não encontrou registro da visita e se colocando à disposição. Se a avaliação viola as políticas do Google, denuncie pelo próprio perfil." },
+      { pergunta: "Fotos dos clientes nas avaliações ajudam?", resposta: "Ajudam o próximo cliente a ver o prato e o ambiente de verdade. Ao pedir a avaliação, você pode convidar o cliente a incluir uma foto do que pediu." },
+    ],
     intro:
       'Quem procura onde comer decide em segundos. Nota, fotos recentes e o que os últimos clientes escreveram pesam mais do que qualquer anúncio. Avaliações bem trabalhadas respondem às dúvidas antes que o cliente precise perguntar.',
     dores: [
@@ -42,7 +50,14 @@ export const NICHOS: Nicho[] = [
     capaAlt: 'Balcão de recepção de clínica em pedra escura com estetoscópio dourado e uma estrela dourada',
     titulo: 'Avaliações no Google para clínicas e consultórios: credibilidade antes da primeira consulta',
     descricao:
-      'Como clínicas, consultórios e profissionais de saúde constroem credibilidade no Google com avaliações, respeitando a ética da profissão.',
+      'Como clínicas, consultórios e profissionais de saúde constroem credibilidade no Google com avaliações, respeitando a ética e a privacidade do paciente.',
+    faq: [
+      { pergunta: "Posso responder a avaliação citando o tratamento do paciente?", resposta: "Evite. Confirmar procedimento, diagnóstico ou qualquer dado de saúde na resposta expõe o paciente. Agradeça e fale do atendimento de forma geral, sem detalhes clínicos." },
+      { pergunta: "O conselho profissional permite pedir avaliações?", resposta: "Cada conselho tem as suas normas de publicidade, então consulte as da sua profissão. Pedir uma avaliação honesta, sem incentivo e sem prometer resultado, é o caminho mais seguro." },
+      { pergunta: "Como pedir avaliação sem constranger o paciente?", resposta: "De forma leve, no fim do atendimento ou numa mensagem depois da consulta, com o link direto. Explique que a opinião ajuda outros pacientes a escolher com segurança." },
+      { pergunta: "Como responder uma reclamação sobre atraso ou valor?", resposta: "Sem discutir em público. Reconheça a experiência, explique o que for possível sem expor o paciente e convide para uma conversa no canal privado da clínica." },
+      { pergunta: "As avaliações ajudam o paciente a escolher a clínica?", resposta: "Sim. Antes de marcar, o paciente procura sinais de confiança, como pontualidade, cuidado e clareza nas explicações. Avaliações detalhadas mostram isso melhor do que a nota." },
+    ],
     intro:
       'Antes de marcar uma consulta, o paciente procura sinais de confiança: atendimento, pontualidade, cuidado. As avaliações são o primeiro contato com a sua clínica, e precisam transmitir segurança.',
     dores: [
@@ -64,7 +79,14 @@ export const NICHOS: Nicho[] = [
     capaAlt: 'Chaves de casa douradas com chaveiro de couro, caneta tinteiro e contrato sobre a mesa, ao lado de uma estrela dourada',
     titulo: 'Avaliações no Google para imobiliárias: a confiança que antecede o primeiro contato',
     descricao:
-      'Como imobiliárias e corretores usam avaliações do Google para gerar confiança em uma decisão de alto valor.',
+      'Como imobiliárias e corretores usam avaliações do Google para gerar confiança em uma decisão de alto valor: quando pedir, como responder e o que destacar.',
+    faq: [
+      { pergunta: "Qual o melhor momento para pedir avaliação na imobiliária?", resposta: "Nos momentos de alívio do cliente: na entrega das chaves, na assinatura do contrato ou quando o imóvel do proprietário é alugado ou vendido." },
+      { pergunta: "Proprietários também podem avaliar a imobiliária?", resposta: "Podem. Quem contratou a imobiliária para vender ou alugar teve uma experiência real com o serviço, e o relato dele convence outros proprietários." },
+      { pergunta: "O corretor pode pedir avaliação para a imobiliária?", resposta: "Pode e deve, mas sem escrever pelo cliente. Peça que ele conte como foi o atendimento; avaliações que citam o corretor pelo nome passam mais confiança." },
+      { pergunta: "Como responder reclamação sobre vistoria ou devolução de caução?", resposta: "Com fatos e sem expor dados do contrato. Explique o procedimento de forma geral, mostre disposição para resolver e leve os detalhes para o atendimento privado." },
+      { pergunta: "Imobiliária tem poucas avaliações porque vende pouco. O que fazer?", resposta: "Peça a todos que passam pela imobiliária: compradores, vendedores, locatários e proprietários. Somando todos, o volume de avaliações cresce bem mais rápido." },
+    ],
     intro:
       'Comprar, vender ou alugar um imóvel envolve dinheiro e segurança. Antes de chamar um corretor, o cliente quer saber se outras pessoas tiveram uma negociação tranquila. As avaliações contam essa história.',
     dores: [

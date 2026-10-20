@@ -1,15 +1,17 @@
-# Todos os buscadores e assistentes de IA podem ler o site.
+# robots.txt — quem pode entrar no site
+# 1) Buscadores e visitantes: tudo liberado.
+# 2) Robôs de IA que indexam ou treinam: liberados, para o site ser citado em respostas.
+# 3) Agentes que navegam em nome de uma pessoa (ChatGPT, Claude, Perplexity): liberados.
+# Páginas internas (/obrigado/, 404) usam a tag noindex: não bloqueie aqui, senão o Google não lê o noindex.
+
 User-agent: *
 Allow: /
 
-# Assistentes e buscadores de IA (permitidos explicitamente)
+# Buscadores de IA e robôs de treinamento
 User-agent: GPTBot
 Allow: /
 
 User-agent: OAI-SearchBot
-Allow: /
-
-User-agent: ChatGPT-User
 Allow: /
 
 User-agent: ClaudeBot
@@ -22,6 +24,22 @@ User-agent: PerplexityBot
 Allow: /
 
 User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+# Agentes que navegam a pedido de uma pessoa
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: Perplexity-User
 Allow: /
 
 Sitemap: https://avaliacoesquevendem.com.br/sitemap.xml

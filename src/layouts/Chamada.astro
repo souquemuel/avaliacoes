@@ -13,5 +13,5 @@ const {
   <h2>{titulo}</h2>
   <p>{texto}</p>
   <div class="acoes"><a class="botao" href={link} rel="noopener">{botao}</a></div>
-  <p class="nota-cta">Sem compromisso: basta informar o nome da empresa e a cidade.{!semEbook && <> Prefere aprender sozinho? <a href={linkEbook} rel="noopener" style="color:#fff">Conheça o ebook</a>.</>}</p>
+  <p class="nota-cta"><span class="prazo">{SITE.prazoResposta}</span> · Sem compromisso: basta informar o nome da empresa e a cidade.{!semEbook && <> Prefere aprender sozinho? <a href={linkEbook} rel="noopener" style="color:#fff">Conheça o ebook</a>.</>}</p>
 </aside>

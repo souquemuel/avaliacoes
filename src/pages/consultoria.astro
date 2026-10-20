@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Chamada from '../layouts/Chamada.astro';
+import Cases from '../components/Cases.astro';
 import { SITE } from '../config';
 import { PILAR_URL } from '../temas';
 
@@ -30,7 +31,7 @@ const schema = [
       <div class="acoes">
         <a class="botao" href={SITE.whatsapp.analise} rel="noopener">Quero minha análise gratuita</a>
       </div>
-      <p class="nota-cta">Pelo WhatsApp {SITE.whatsappExibicao}. Você recebe uma nota de 0 a 100 para o seu perfil.</p>
+      <p class="nota-cta"><span class="prazo">{SITE.prazoResposta}</span> · pelo WhatsApp {SITE.whatsappExibicao}. Você recebe uma nota de 0 a 100 para o seu perfil.</p>
       <div class="prova"><div><strong>1.700+</strong><span>clientes atendidos</span></div><div><strong>12x</strong><span>pagamento parcelado</span></div></div>
     </div>
   </section>
@@ -60,6 +61,8 @@ const schema = [
       </div>
     </div>
   </section>
+
+  <Cases titulo="Empresas que já passaram pela consultoria" />
 
   <section class="secao escuro">
     <div class="container duas-colunas">

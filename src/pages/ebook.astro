@@ -2,19 +2,29 @@
 import Base from '../layouts/Base.astro';
 import { SITE, linkEbook } from '../config';
 import { PILAR_URL } from '../temas';
-const schema = [{
-  '@context': 'https://schema.org', '@type': 'Book', name: 'Guia das Avaliações que Vendem', inLanguage: 'pt-BR',
-  author: { '@id': `${SITE.url}/sobre/#quemuel` }, bookFormat: 'https://schema.org/EBook', url: `${SITE.url}/ebook/`,
-}];
+const faq = [
+  { pergunta: 'O ebook substitui a consultoria?', resposta: 'Não. O ebook é para quem quer aplicar o método sozinho, com a própria equipe. Na consultoria, nós fazemos o trabalho com você e deixamos o perfil completo.' },
+  { pergunta: 'Preciso entender de marketing para aplicar?', resposta: 'Não. O guia foi escrito para o dono de negócio local, sem jargão: o que fazer, quando fazer e como fazer.' },
+  { pergunta: 'O ebook garante o primeiro lugar no Google?', resposta: 'Não. Ninguém sério garante posição no Google. O guia ensina a deixar as suas avaliações convincentes para o cliente escolher você quando encontrar a sua empresa.' },
+  { pergunta: 'O guia ensina a comprar avaliações ou usar atalhos?', resposta: 'Não. O método trabalha só com avaliações reais de clientes, dentro das políticas do Google, para você crescer sem risco de remoção.' },
+  { pergunta: 'Como eu recebo o ebook?', resposta: SITE.ebookUrl ? 'O acesso é liberado logo após a compra.' : `Pelo WhatsApp ${SITE.whatsappExibicao}: você chama, e eu envio o link de compra. ${SITE.prazoResposta}.` },
+];
+const schema = [
+  {
+    '@context': 'https://schema.org', '@type': 'Book', name: 'Guia das Avaliações que Vendem', inLanguage: 'pt-BR',
+    author: { '@id': `${SITE.url}/sobre/#quemuel` }, bookFormat: 'https://schema.org/EBook', url: `${SITE.url}/ebook/`,
+  },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.pergunta, acceptedAnswer: { '@type': 'Answer', text: f.resposta } })) },
+];
 ---
-<Base titulo="Ebook Guia das Avaliações que Vendem" descricao="O ebook Guia das Avaliações que Vendem mostra, passo a passo, como transformar as avaliações do Google em novos clientes para o seu negócio local." schema={schema} trilha={[{ nome: 'Ebook' }]} trilhaVisivel={false}>
+<Base titulo="Ebook Guia das Avaliações que Vendem: passo a passo" descricao="O ebook Guia das Avaliações que Vendem mostra, passo a passo, como transformar as avaliações do Google em novos clientes para o seu negócio local." schema={schema} trilha={[{ nome: 'Ebook' }]} trilhaVisivel={false}>
   <section class="hero" style="padding-top:32px">
     <div class="container">
       <span class="selo">Ebook</span>
       <h1>Guia das Avaliações que Vendem</h1>
       <p class="sub">O passo a passo para donos de negócios locais que querem mais clientes pelo Google sem depender de anúncios. Sem jargão de marketing: o que fazer, quando fazer e como fazer.</p>
       <div class="acoes"><a class="botao" href={linkEbook} rel="noopener">Quero o guia</a></div>
-      <p class="nota-cta">{SITE.ebookUrl ? 'Acesso imediato após a compra.' : `Fale comigo pelo WhatsApp ${SITE.whatsappExibicao} para receber o link de compra.`}</p>
+      <p class="nota-cta">{SITE.ebookUrl ? 'Acesso imediato após a compra.' : <><span class="prazo">{SITE.prazoResposta}</span> · fale comigo pelo WhatsApp {SITE.whatsappExibicao} para receber o link de compra.</>}</p>
     </div>
   </section>
   <section class="secao">
@@ -33,6 +43,13 @@ const schema = [{
         <p>Para quem cuida do próprio negócio e quer aplicar o método sozinho, com a equipe. Se você prefere que façamos com você, conheça a <a href="/consultoria/">consultoria</a>.</p>
         <p>Antes de comprar, leia o <a href={PILAR_URL}>guia gratuito de avaliações no Google</a> e veja se a abordagem faz sentido para você.</p>
       </div>
+    </div>
+  </section>
+  <section class="secao clara">
+    <div class="container leitura centro">
+      <h2 class="topo-secao">Perguntas frequentes</h2>
+      <div class="faq">{faq.map((f) => (<details><summary>{f.pergunta}</summary><p>{f.resposta}</p></details>))}</div>
+      <div class="acoes"><a class="botao" href={linkEbook} rel="noopener">Quero o guia</a></div>
     </div>
   </section>
 </Base>

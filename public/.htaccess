@@ -1,0 +1,2 @@
+# Página 404 personalizada (link quebrado leva para a página com caminhos úteis)
+ErrorDocument 404 /404.html

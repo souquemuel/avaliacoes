@@ -1,0 +1,34 @@
+---
+// Página de obrigado: todo botão de contato passa por aqui.
+// Ela registra a conversão (GA4 "generate_lead" e o próprio acesso a /obrigado/)
+// e em seguida abre o WhatsApp com a mensagem certa para a origem do clique.
+import Base from '../layouts/Base.astro';
+import { SITE, WHATSAPP_DIRETO } from '../config';
+import { PILAR_URL } from '../temas';
+---
+<Base titulo="Obrigado! Abrindo o WhatsApp" descricao="Seu contato foi iniciado. Estamos abrindo o WhatsApp de Quemuel Verdum com a mensagem pronta." semIndex semCtaFixo>
+  <section class="pagina-curta"><div class="container leitura centro">
+    <span class="selo">Obrigado pelo contato</span>
+    <h1>Estamos abrindo o seu WhatsApp</h1>
+    <p>A mensagem já vai pronta, é só enviar. <span class="prazo">{SITE.prazoResposta}</span></p>
+    <div class="acoes">
+      <a class="botao" id="abrir-whatsapp" href={WHATSAPP_DIRETO.analise} rel="noopener">Abrir o WhatsApp agora</a>
+    </div>
+    <p class="nota-cta">Não abriu? Toque no botão acima ou chame no {SITE.whatsappExibicao}.</p>
+    <p class="meta">Enquanto isso, leia o <a href={PILAR_URL}>guia completo de avaliações no Google</a>.</p>
+  </div></section>
+  <script is:inline define:vars={{ destinos: WHATSAPP_DIRETO }}>
+    (function () {
+      var origem = new URLSearchParams(location.search).get('origem') || 'analise';
+      var destino = destinos[origem] || destinos.analise;
+      var botao = document.getElementById('abrir-whatsapp');
+      if (botao) botao.href = destino;
+      var foi = false;
+      function ir() { if (foi) return; foi = true; location.href = destino; }
+      if (window.gtag) {
+        gtag('event', 'generate_lead', { origem: origem, metodo: 'whatsapp', event_callback: ir, event_timeout: 1200 });
+      }
+      setTimeout(ir, 1500);
+    })();
+  </script>
+</Base>

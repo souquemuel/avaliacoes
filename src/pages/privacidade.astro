@@ -1,0 +1,51 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../config';
+const atualizada = '20 de outubro de 2026';
+---
+<Base titulo="Política de privacidade" descricao="Como o site Avaliações que Vendem trata dados pessoais: contato pelo WhatsApp, cookies do Google Analytics e os seus direitos pela LGPD (Lei 13.709/2018)." trilha={[{ nome: 'Política de privacidade' }]} trilhaEscura>
+  <header class="pagina-topo"><div class="container leitura centro">
+    <span class="selo">Transparência</span>
+    <h1>Política de privacidade</h1>
+    <p class="intro-secao">Atualizada em {atualizada}.</p>
+  </div></header>
+  <article class="pagina-corpo">
+    <div class="container leitura centro conteudo">
+      <div class="resumo"><strong>Em resumo</strong><p>Este site não tem formulários nem pede cadastro. Só tratamos os dados que você mesmo envia pelo WhatsApp e, se você aceitar, dados de navegação anônimos do Google Analytics.</p></div>
+
+      <h2>Quem é o responsável pelos dados?</h2>
+      <p>O responsável (controlador) é {SITE.autor}, que atua com a marca {SITE.marca}, na {SITE.regiao}. Para qualquer assunto de privacidade, fale pelo WhatsApp {SITE.whatsappExibicao}.</p>
+
+      <h2>Que dados são coletados?</h2>
+      <ul>
+        <li><strong>Contato pelo WhatsApp:</strong> quando você clica em um botão de contato, o WhatsApp abre com uma mensagem pronta. A partir daí, recebemos o seu nome, o seu número e o que você escrever, como o nome da empresa e a cidade.</li>
+        <li><strong>Dados de navegação:</strong> se você aceitar os cookies, o Google Analytics registra de forma estatística as páginas visitadas, o tempo no site, o tipo de aparelho, a cidade aproximada e de onde você chegou.</li>
+        <li><strong>Registros do servidor:</strong> a hospedagem (Hostinger) guarda registros técnicos de acesso, como endereço IP e data, para segurança e funcionamento do site.</li>
+      </ul>
+
+      <h2>Para que esses dados são usados?</h2>
+      <ul>
+        <li>Responder ao seu contato e fazer a análise do perfil da sua empresa no Google, quando você pedir.</li>
+        <li>Entender quais conteúdos são úteis e melhorar o site.</li>
+        <li>Medir quantas pessoas entram em contato a partir do site.</li>
+      </ul>
+      <p>Não vendemos nem compartilhamos os seus dados com terceiros para fins comerciais.</p>
+
+      <h2>Quais cookies o site usa?</h2>
+      <p>O site só usa cookies do Google Analytics, e só depois que você clica em "Aceitar" no aviso de cookies. Se recusar, o site funciona normalmente e nenhum cookie de medição é gravado. A sua escolha fica salva no seu navegador; para mudar, limpe os dados do site no navegador e escolha de novo.</p>
+      <p>O Google trata esses dados conforme a <a href="https://policies.google.com/privacy?hl=pt-BR" rel="noopener">Política de Privacidade do Google</a>.</p>
+
+      <h2>Com quem os dados são compartilhados?</h2>
+      <p>Somente com os serviços necessários para o site e o atendimento funcionarem: Hostinger (hospedagem), Google (Analytics) e WhatsApp (Meta), cada um com a sua própria política de privacidade.</p>
+
+      <h2>Por quanto tempo os dados ficam guardados?</h2>
+      <p>As conversas de WhatsApp ficam guardadas enquanto houver relação de atendimento ou até você pedir a exclusão. Os dados do Google Analytics seguem o prazo de retenção configurado na ferramenta.</p>
+
+      <h2>Quais são os seus direitos?</h2>
+      <p>Pela Lei Geral de Proteção de Dados (<a href="https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm" rel="noopener">Lei 13.709/2018</a>), você pode pedir a qualquer momento: confirmação de que tratamos os seus dados, acesso, correção, exclusão, informação sobre compartilhamento e revogação do consentimento. Basta pedir pelo WhatsApp {SITE.whatsappExibicao}.</p>
+
+      <h2>Esta política pode mudar?</h2>
+      <p>Sim. Quando houver mudança, a data no topo desta página será atualizada.</p>
+    </div>
+  </article>
+</Base>

@@ -303,3 +303,55 @@ p { margin: 0 0 var(--e-4); }
 .rodape ul { list-style: none; padding: 0; margin: 0; }
 .rodape li { margin-bottom: 8px; }
 .rodape .base { border-top: 1px solid rgba(255,255,255,.1); margin-top: var(--e-6); padding-top: var(--e-4); }
+.rodape .nap { font-style: normal; line-height: 1.6; margin: 0 0 var(--e-3); }
+.rodape .link-insta { color: var(--ouro); }
+
+/* CTA fixo no mobile: acompanha o visitante até a decisão */
+.cta-fixo { display: none; }
+@media (max-width: 900px) {
+  .cta-fixo { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 6; flex-direction: column; align-items: stretch; gap: 4px; padding: 10px 16px calc(10px + env(safe-area-inset-bottom)); background: rgba(20,22,28,.97); border-top: 1px solid rgba(214,168,74,.35); backdrop-filter: saturate(140%) blur(8px); text-align: center; }
+  .cta-fixo .botao { min-height: 48px; padding: 10px 16px; }
+  .cta-fixo span { font-size: .78rem; color: var(--claro-sobre-escuro); }
+  body.com-cta-fixo { padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
+  body.com-cta-fixo .rodape { margin-bottom: 0; }
+}
+@media print { .cta-fixo, .aviso-cookies { display: none !important; } }
+
+/* Prazo de resposta junto aos CTAs */
+.prazo { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; }
+.prazo::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: #4caf7a; box-shadow: 0 0 0 3px rgba(76,175,122,.2); }
+
+/* CTA discreto no topo dos artigos */
+.cta-topo { margin: var(--e-4) 0 0; font-size: .95rem; color: var(--claro-sobre-escuro); }
+.cta-topo a { color: var(--ouro); font-weight: 700; }
+.cta-topo a:hover { color: #fff; }
+
+/* Cases */
+.grade-cases { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--e-5); margin-top: var(--e-6); }
+.case { background: var(--papel); border: 1px solid var(--linha); border-radius: var(--raio); padding: var(--e-5); box-shadow: var(--sombra); display: flex; flex-direction: column; gap: var(--e-3); }
+.case h3 { margin: 0; font-size: 1.2rem; }
+.case .numeros { display: grid; grid-template-columns: 1fr 1fr; gap: var(--e-3); margin: 0; }
+.case .numeros div { background: var(--fundo); border-radius: var(--raio-sm); padding: var(--e-3); }
+.case dt { font-size: .75rem; text-transform: uppercase; letter-spacing: .08em; color: var(--suave); }
+.case dd { margin: 0; font-family: var(--serif); font-size: 1.3rem; color: var(--tinta); }
+.case dd.depois { color: var(--ouro-texto); }
+.case blockquote { margin: 0; font-style: italic; color: var(--texto); }
+
+/* Página de obrigado e 404 */
+.pagina-curta { padding: var(--e-8) 0; }
+.pagina-curta .acoes { justify-content: center; }
+.atalhos-404 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--e-4); margin: var(--e-6) 0; text-align: left; }
+.atalhos-404 a { display: block; background: var(--papel); border: 1px solid var(--linha); border-radius: var(--raio-sm); padding: var(--e-4); text-decoration: none; color: var(--tinta); font-weight: 600; }
+.atalhos-404 a:hover { border-color: var(--ouro); box-shadow: var(--sombra); }
+.atalhos-404 small { display: block; font-weight: 400; color: var(--suave); }
+
+/* Aviso de cookies */
+.aviso-cookies { position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 8; max-width: 520px; margin-left: auto; background: var(--papel); color: var(--texto); border: 1px solid var(--linha); border-radius: var(--raio); box-shadow: var(--sombra-forte); padding: var(--e-4) var(--e-5); font-size: .95rem; }
+.aviso-cookies[hidden] { display: none; }
+.aviso-cookies p { margin: 0 0 var(--e-3); }
+.acoes-cookies { display: flex; gap: var(--e-2); flex-wrap: wrap; }
+.acoes-cookies .botao { min-height: 44px; padding: 8px 20px; cursor: pointer; font: inherit; font-weight: 700; }
+@media (max-width: 900px) { .com-cta-fixo .aviso-cookies { bottom: calc(108px + env(safe-area-inset-bottom)); } }
+.post-topo .nota-cta { color: var(--claro-sobre-escuro); }
+.cta-fixo { transition: transform .25s ease; }
+.cta-fixo.oculto { transform: translateY(110%); }

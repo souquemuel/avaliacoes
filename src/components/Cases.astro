@@ -1,0 +1,28 @@
+---
+import { CASES } from '../cases';
+interface Props { titulo?: string; limite?: number }
+const { titulo = 'Resultados de clientes', limite = 3 } = Astro.props;
+const lista = CASES.slice(0, limite);
+---
+{lista.length > 0 && (
+  <section class="secao clara" aria-labelledby="titulo-cases">
+    <div class="container">
+      <span class="selo">Cases</span>
+      <h2 class="topo-secao" id="titulo-cases">{titulo}</h2>
+      <div class="grade-cases">
+        {lista.map((c) => (
+          <article class="case">
+            <p class="card-meta"><span class="chip">{c.segmento}</span>{c.cidade && <span>{c.cidade}</span>}</p>
+            <h3>{c.empresa}</h3>
+            <dl class="numeros">
+              <div><dt>Antes · {c.antes.rotulo}</dt><dd>{c.antes.valor}</dd></div>
+              <div><dt>Depois{c.prazo ? ` · ${c.prazo}` : ''}</dt><dd class="depois">{c.depois.valor}</dd></div>
+            </dl>
+            <p>{c.resultado}</p>
+            {c.depoimento && <blockquote><p>“{c.depoimento}”</p>{c.autorDepoimento && <footer class="meta">{c.autorDepoimento}</footer>}</blockquote>}
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+)}

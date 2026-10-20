@@ -12,10 +12,13 @@ export function getStaticPaths() {
 const { n } = Astro.props as { n: Nicho };
 const outros = NICHOS.filter((x) => x.slug !== n.slug);
 const foto = fotoCapa(n.capa);
-const schema = [{
+const schema: Record<string, unknown>[] = [{
   '@context': 'https://schema.org', '@type': 'Article', headline: n.titulo, description: n.descricao, inLanguage: 'pt-BR',
   author: { '@id': `${SITE.url}/sobre/#quemuel` }, publisher: { '@id': `${SITE.url}/#organizacao` },
   mainEntityOfPage: `${SITE.url}/avaliacoes-para/${n.slug}/`, image: `${SITE.url}${foto.social}`,
+}, {
+  '@context': 'https://schema.org', '@type': 'FAQPage',
+  mainEntity: n.faq.map((f) => ({ '@type': 'Question', name: f.pergunta, acceptedAnswer: { '@type': 'Answer', text: f.resposta } })),
 }];
 ---
 <Base titulo={n.tituloSeo} descricao={n.descricao} schema={schema} trilha={[{ nome: 'Segmentos', url: '/avaliacoes-para/' }, { nome: n.nome }]} trilhaEscura imagem={foto.social}>
@@ -23,6 +26,8 @@ const schema = [{
     <div>
       <span class="selo">Segmento · {n.nome}</span>
       <h1>{n.titulo}</h1>
+      <div class="acoes"><a class="botao" href={SITE.whatsapp.analise}>Quero uma análise do meu perfil</a></div>
+      <p class="nota-cta"><span class="prazo">{SITE.prazoResposta}</span> · pelo WhatsApp {SITE.whatsappExibicao}</p>
     </div>
     <div class="post-capa"><img src={foto.grande} srcset={`${foto.media} 768w, ${foto.grande} 1536w`} sizes="(max-width: 860px) 100vw, 480px" width="1536" height="864" fetchpriority="high" decoding="async" alt={n.capaAlt} /></div>
   </div></header>
@@ -33,6 +38,10 @@ const schema = [{
       <ul>{n.dores.map((d) => <li>{d}</li>)}</ul>
       <h2>Que estratégias funcionam para {n.nome.toLowerCase()}?</h2>
       {n.estrategias.map((e) => (<><h3>{e.titulo}</h3><p>{e.texto}</p></>))}
+      <section class="faq">
+        <h2>Perguntas frequentes</h2>
+        {n.faq.map((f) => (<details><summary>{f.pergunta}</summary><p>{f.resposta}</p></details>))}
+      </section>
       <h2>Por onde continuar</h2>
       <ul>
         <li><a href={PILAR_URL}>Guia completo de avaliações no Google</a></li>
